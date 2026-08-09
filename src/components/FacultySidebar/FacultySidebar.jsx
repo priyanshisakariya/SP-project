@@ -15,12 +15,11 @@ import {
 } from "react-icons/fa";
 
 function FacultySidebar({ sidebarOpen }) {
-
   return (
-    <aside className={`sidebar ${sidebarOpen ? "" : "close"}`}>
+    <aside className={`sidebar ${sidebarOpen ? "open" : "close"}`}>
 
+      {/* Logo */}
       <div className="sidebar-header">
-
         <img
           src={logo}
           alt="CampusProject Logo"
@@ -30,9 +29,9 @@ function FacultySidebar({ sidebarOpen }) {
         <h2 className="sidebar-title">
           CampusProject
         </h2>
-
       </div>
 
+      {/* Menu */}
       <nav className="sidebar-menu">
 
         <NavLink to="/faculty-portal/faculty-dashboard">
@@ -60,14 +59,14 @@ function FacultySidebar({ sidebarOpen }) {
           <span>Comments</span>
         </NavLink>
 
-        <NavLink to="/faculty-portal/marks">
+        <NavLink to="/faculty-portal/mark-management">
           <FaAward />
           <span>Mark Management</span>
         </NavLink>
 
-        <NavLink to="/faculty-portal/reports">
+        <NavLink to="/faculty-portal/generate-marksheet">
           <FaChartBar />
-          <span>Reports</span>
+          <span>Generate Marksheet</span>
         </NavLink>
 
         <NavLink to="/faculty-portal/notifications">
@@ -77,13 +76,12 @@ function FacultySidebar({ sidebarOpen }) {
 
       </nav>
 
+      {/* Logout */}
       <div className="logout-area">
-
         <NavLink to="/">
           <FaSignOutAlt />
           <span>Logout</span>
         </NavLink>
-
       </div>
 
     </aside>

@@ -1,19 +1,24 @@
 import "./FacultyTopbar.css";
 import logo from "../../assets/logo1.jpeg";
 
-import { FaBell, FaBars } from "react-icons/fa";
+import {
+  FaBell,
+  FaBars,
+} from "react-icons/fa";
 
 function FacultyTopbar({ sidebarOpen, setSidebarOpen }) {
 
   return (
     <header className="topbar">
 
-      {/* Left */}
+      {/* LEFT SECTION */}
       <div className="top-left">
 
+        {/* BURGER MENU */}
         <button
           className="menu-btn"
           onClick={() => setSidebarOpen(!sidebarOpen)}
+          aria-label="Toggle Sidebar"
         >
           <FaBars />
         </button>
@@ -24,13 +29,17 @@ function FacultyTopbar({ sidebarOpen, setSidebarOpen }) {
 
       </div>
 
-      {/* Right */}
+
+      {/* RIGHT SECTION */}
       <div className="user-section">
 
+        {/* Notification */}
         <div className="notification">
           <FaBell />
         </div>
 
+
+        {/* Profile */}
         <div className="profile">
 
           <img
@@ -40,8 +49,15 @@ function FacultyTopbar({ sidebarOpen, setSidebarOpen }) {
           />
 
           <div className="profile-info">
-            <h4>Priyanshi Sakariya</h4>
-            <p>Student</p>
+
+            <h4>
+              Priyanshi Sakariya
+            </h4>
+
+            <p>
+              Faculty
+            </p>
+
           </div>
 
         </div>
