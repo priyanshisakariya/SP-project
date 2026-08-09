@@ -183,7 +183,7 @@ function App() {
 
           {/* Default Faculty Dashboard */}
           <Route
-            index
+            path="faculty-dashboard"
             element={<FacultyDashboard />}
           />
 

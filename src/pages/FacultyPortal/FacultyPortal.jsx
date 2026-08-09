@@ -13,19 +13,26 @@ function FacultyPortal() {
   return (
     <div className="portal">
 
-      {/* Sidebar */}
-      <FacultySidebar sidebarOpen={sidebarOpen} />
+      {/* FACULTY SIDEBAR */}
+      <FacultySidebar
+        sidebarOpen={sidebarOpen}
+      />
 
-      {/* Main */}
-      <div
-        className={`main ${sidebarOpen ? "" : "expanded"}`}
-      >
 
-        <FacultyTopbar
+      {/* FACULTY MAIN AREA */}
+      <div className="main">
+
+        {/* TOPBAR */}
+        {/* <FacultyTopbar
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
-        />
+        /> */}
+        <FacultyTopbar
+  onMenuClick={toggleSidebar}
+/>
 
+
+        {/* PAGE CONTENT */}
         <main className="content">
           <Outlet />
         </main>

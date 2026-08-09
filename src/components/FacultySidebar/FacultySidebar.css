@@ -4,201 +4,225 @@
    SIDEBAR
 ========================================== */
 
-.sidebar{
-    width:290px;
-    min-width:270px;
-    height:100vh;
-    background:#173B63;
-    display:flex;
-    flex-direction:column;
-    box-shadow:3px 0 15px rgba(0,0,0,.15);
-    transition:.3s;
-    overflow:hidden;
+.sidebar {
+  width: 290px;
+  min-width: 290px;
+  height: 100vh;
+
+  background: #173B63;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  box-shadow: 3px 0 15px rgba(0, 0, 0, 0.15);
+
+  transition:
+    width 0.3s ease,
+    min-width 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
-/* Close Sidebar */
 
-.sidebar.close{
-    width:0;
-    min-width:0;
-    overflow:hidden;
+/* ==========================================
+   SIDEBAR CLOSE
+========================================== */
+
+.sidebar.close {
+  width: 0;
+  min-width: 0;
+
+  box-shadow: none;
 }
+
 
 /* ==========================================
    HEADER
 ========================================== */
 
-.sidebar-header{
-    height:75px;
-    display:flex;
-    align-items:center;
-    gap:15px;
-    padding:0 20px;
-    border-bottom:1px solid rgba(255,255,255,.15);
+.sidebar-header {
+  height: 75px;
+  min-height: 75px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 0 20px;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+
+  white-space: nowrap;
 }
 
-.sidebar-logo{
-    width:48px;
-    height:48px;
-    border-radius:50%;
-    object-fit:cover;
+.sidebar-logo {
+  width: 48px;
+  height: 48px;
+
+  min-width: 48px;
+
+  border-radius: 50%;
+
+  object-fit: cover;
 }
 
-.sidebar-title{
-    font-size:24px;
-    font-weight:700;
-    color:#ffffff;
-    white-space:nowrap;
+.sidebar-title {
+  margin: 0;
+
+  font-size: 24px;
+  font-weight: 700;
+
+  color: #ffffff;
+
+  white-space: nowrap;
 }
+
 
 /* ==========================================
    MENU
 ========================================== */
 
-.sidebar-menu{
-    flex:1;
-    padding:20px 15px;
-    overflow-y:auto;
+.sidebar-menu {
+  flex: 1;
+
+  padding: 20px 15px;
+
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
-.sidebar-menu a{
+.sidebar-menu a {
+  display: flex;
+  align-items: center;
 
-    display:flex;
-    align-items:center;
-    gap:15px;
+  gap: 15px;
 
-    text-decoration:none;
+  padding: 14px 18px;
 
-    color:#ffffff;
+  margin-bottom: 10px;
 
-    padding:14px 18px;
+  border-radius: 12px;
 
-    margin-bottom:10px;
+  text-decoration: none;
 
-    border-radius:12px;
+  color: #ffffff;
 
-    font-size:15px;
+  font-size: 15px;
+  font-weight: 500;
 
-    font-weight:500;
+  white-space: nowrap;
 
-    transition:.3s;
-
+  transition: 0.3s;
 }
 
-.sidebar-menu a svg{
+.sidebar-menu a svg {
+  font-size: 20px;
 
-    font-size:20px;
-
-    min-width:22px;
-
+  min-width: 22px;
 }
+
 
 /* Hover */
 
-.sidebar-menu a:hover{
+.sidebar-menu a:hover {
+  background: #2F80ED;
 
-    background:#2F80ED;
+  color: #ffffff;
 
-    color:#ffffff;
-
-    transform:translateX(5px);
-
+  transform: translateX(5px);
 }
+
 
 /* Active */
 
-.sidebar-menu a.active{
+.sidebar-menu a.active {
+  background: #2F80ED;
 
-    background:#2F80ED;
+  color: #ffffff;
 
-    color:#ffffff;
-
-    font-weight:600;
-
+  font-weight: 600;
 }
+
 
 /* ==========================================
    LOGOUT
 ========================================== */
 
-.logout-area{
+.logout-area {
+  padding: 20px 15px;
 
-    padding:20px 15px;
-
-    border-top:1px solid rgba(255,255,255,.15);
-
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-.logout-area a{
+.logout-area a {
+  display: flex;
+  align-items: center;
 
-    display:flex;
+  gap: 15px;
 
-    align-items:center;
+  padding: 14px 18px;
 
-    gap:15px;
+  border-radius: 12px;
 
-    text-decoration:none;
+  text-decoration: none;
 
-    color:#ffffff;
+  color: #ffffff;
 
-    padding:14px 18px;
+  font-weight: 500;
 
-    border-radius:12px;
+  white-space: nowrap;
 
-    font-weight:500;
-
-    transition:.3s;
-
+  transition: 0.3s;
 }
 
-.logout-area a:hover{
+.logout-area a svg {
+  font-size: 20px;
 
-    background:#dc2626;
-
-    color:#ffffff;
-
+  min-width: 22px;
 }
+
+.logout-area a:hover {
+  background: #dc2626;
+
+  color: #ffffff;
+}
+
 
 /* ==========================================
    SCROLLBAR
 ========================================== */
 
-.sidebar-menu::-webkit-scrollbar{
-
-    width:6px;
-
+.sidebar-menu::-webkit-scrollbar {
+  width: 6px;
 }
 
-.sidebar-menu::-webkit-scrollbar-thumb{
+.sidebar-menu::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
 
-    background:rgba(255,255,255,.30);
-
-    border-radius:10px;
-
+  border-radius: 10px;
 }
 
-.sidebar-menu::-webkit-scrollbar-track{
-
-    background:transparent;
-
+.sidebar-menu::-webkit-scrollbar-track {
+  background: transparent;
 }
+
 
 /* ==========================================
-   RESPONSIVE
+   MOBILE
 ========================================== */
 
-@media(max-width:768px){
+@media (max-width: 768px) {
 
-.sidebar{
+  .sidebar {
+    position: fixed;
 
-    position:fixed;
+    left: 0;
+    top: 0;
 
-    left:0;
-
-    top:0;
-
-    z-index:1000;
-
-}
+    z-index: 1000;
+  }
 
 }
+
