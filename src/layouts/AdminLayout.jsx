@@ -7,26 +7,51 @@ import AdminTopbar from "../pages/Admin/AdminTopbar";
 import "./AdminLayout.css";
 
 function AdminLayout() {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  return (
-    <>
-      <AdminSidebar sidebarOpen={sidebarOpen} />
+    const [sidebarOpen, setSidebarOpen] = useState(true);
 
-      <div className={`main ${sidebarOpen ? "" : "expanded"}`}>
-        
-        <AdminTopbar
-          sidebarOpen={sidebarOpen}
-          setSidebarOpen={setSidebarOpen}
-        />
+    return (
+        <div
+            className={`admin-layout ${
+                sidebarOpen
+                    ? "sidebar-open"
+                    : "sidebar-closed"
+            }`}
+        >
 
-        <div className="content">
-          <Outlet />
+            {/* =========================
+                ADMIN SIDEBAR
+            ========================= */}
+
+            <AdminSidebar
+                sidebarOpen={sidebarOpen}
+            />
+
+
+            {/* =========================
+                MAIN AREA
+            ========================= */}
+
+            <div className="main">
+
+                {/* TOPBAR */}
+
+                <AdminTopbar
+                    sidebarOpen={sidebarOpen}
+                    setSidebarOpen={setSidebarOpen}
+                />
+
+
+                {/* PAGE CONTENT */}
+
+                <div className="content">
+                    <Outlet />
+                </div>
+
+            </div>
+
         </div>
-
-      </div>
-    </>
-  );
+    );
 }
 
 export default AdminLayout;

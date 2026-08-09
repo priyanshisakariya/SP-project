@@ -1,83 +1,118 @@
-/* ==========================
-   Dashboard Layout
-========================== */
+/* =====================================================
+   ADMIN LAYOUT
+===================================================== */
 
-.layout{
-    display:flex;
-    min-height:100vh;
-    background:#f5f7fb;
+.admin-layout {
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+
+    margin: 0;
+    padding: 0;
+
+    background: #f5f7fb;
+
+    box-sizing: border-box;
+
+    overflow-x: hidden;
 }
 
-/* ==========================
-   Main Content
-========================== */
 
-.main{
+/* =====================================================
+   MAIN AREA
+===================================================== */
 
-    margin-left:270px;
+.main {
+    margin-left: 270px;
 
-    width:calc(100% - 270px);
+    width: calc(100% - 270px);
 
-    min-height:100vh;
+    min-height: 100vh;
 
-    display:flex;
+    display: flex;
 
-    flex-direction:column;
+    flex-direction: column;
 
-    transition:all .3s ease;
+    background: #f5f7fb;
 
-    background:#f5f7fb;
+    box-sizing: border-box;
+
+    transition:
+        margin-left 0.3s ease,
+        width 0.3s ease;
 }
 
-/* When sidebar collapses */
 
-.main.expanded{
+/* =====================================================
+   SIDEBAR OPEN
+===================================================== */
 
-    margin-left:80px;
+.admin-layout.sidebar-open .main {
 
-    width:calc(100% - 80px);
+    margin-left: 270px;
+
+    width: calc(100% - 270px);
+
 }
 
-/* ==========================
-   Page Content
-========================== */
 
-.content{
+/* =====================================================
+   SIDEBAR CLOSED
+===================================================== */
 
-    flex:1;
+.admin-layout.sidebar-closed .main {
 
-    padding:30px;
+    margin-left: 0;
 
-    overflow-x:auto;
+    width: 100%;
 
-    overflow-y:auto;
-
-    box-sizing:border-box;
 }
 
-/* ==========================
-   Responsive
-========================== */
 
-@media(max-width:768px){
+/* =====================================================
+   CONTENT
+===================================================== */
 
-.main{
+.content {
 
-    margin-left:0;
+    flex: 1;
 
-    width:100%;
+    width: 100%;
+
+    min-width: 0;
+
+    padding: 30px;
+
+    box-sizing: border-box;
+
+    overflow-x: auto;
+
+    overflow-y: auto;
+
+    background: #f5f7fb;
+
 }
 
-.main.expanded{
 
-    margin-left:0;
+/* =====================================================
+   RESPONSIVE
+===================================================== */
 
-    width:100%;
-}
+@media (max-width: 768px) {
 
-.content{
+    .main {
 
-    padding:20px;
-}
+        margin-left: 0 !important;
+
+        width: 100% !important;
+
+    }
+
+    .content {
+
+        padding: 20px;
+
+    }
 
 }
