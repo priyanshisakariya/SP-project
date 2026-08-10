@@ -23,13 +23,13 @@ function FacultyPortal() {
       <div className="main">
 
         {/* TOPBAR */}
-        {/* <FacultyTopbar
+        <FacultyTopbar
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
-        /> */}
-        <FacultyTopbar
-  onMenuClick={toggleSidebar}
-/>
+        />
+         {/* <FacultyTopbar
+  onMenuClick={toggleSidebar} 
+/> */}
 
 
         {/* PAGE CONTENT */}
