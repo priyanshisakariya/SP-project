@@ -7,39 +7,25 @@ import FacultyTopbar from "../../components/FacultyTopbar/FacultyTopbar";
 import "./FacultyPortal.css";
 
 function FacultyPortal() {
-
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+const [sidebarOpen, setSidebarOpen] = useState(true);
 
   return (
-    <div className="portal">
+    <>
+      <FacultySidebar sidebarOpen={sidebarOpen} />
 
-      {/* FACULTY SIDEBAR */}
-      <FacultySidebar
-        sidebarOpen={sidebarOpen}
-      />
-
-
-      {/* FACULTY MAIN AREA */}
-      <div className="main">
-
-        {/* TOPBAR */}
+      <div className={`main ${sidebarOpen ? "" : "expanded"}`}>
+        
         <FacultyTopbar
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
         />
-         {/* <FacultyTopbar
-  onMenuClick={toggleSidebar} 
-/> */}
 
-
-        {/* PAGE CONTENT */}
-        <main className="content">
+        <div className="content">
           <Outlet />
-        </main>
+        </div>
 
       </div>
-
-    </div>
+    </>
   );
 }
 

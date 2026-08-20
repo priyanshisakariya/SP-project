@@ -4,17 +4,20 @@ import logo from "../../assets/logo1.jpeg";
 import {
   FaBell,
   FaBars,
+  FaUserShield
 } from "react-icons/fa";
 
 function FacultyTopbar({ sidebarOpen, setSidebarOpen }) {
 
-  return (
+return (
     <header className="topbar">
 
-      {/* LEFT SECTION */}
+      {/* =========================================
+          LEFT SECTION
+      ========================================= */}
+
       <div className="top-left">
 
-        {/* BURGER MENU */}
         <button
           className="menu-btn"
           onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -30,32 +33,27 @@ function FacultyTopbar({ sidebarOpen, setSidebarOpen }) {
       </div>
 
 
-      {/* RIGHT SECTION */}
+      {/* =========================================
+          RIGHT SECTION
+      ========================================= */}
+
       <div className="user-section">
 
-        {/* Notification */}
-        <div className="notification">
-          <FaBell />
-        </div>
-
-
-        {/* Profile */}
         <div className="profile">
 
-          <img
-            src={logo}
-            alt="Profile"
-            className="profile-img"
-          />
+          {/* React Admin Icon */}
+          <div className="profile-icon">
+            <FaUserShield />
+          </div>
 
           <div className="profile-info">
 
             <h4>
-              Priyanshi Sakariya
+              Faculty
             </h4>
 
             <p>
-              Faculty
+              Faculty Member
             </p>
 
           </div>

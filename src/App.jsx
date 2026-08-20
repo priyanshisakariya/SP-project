@@ -33,7 +33,7 @@ import FacultyRegister from "./pages/Faculty/FacultyRegister";
 import FacultyPortal from "./pages/FacultyPortal/FacultyPortal";
 import FacultyDashboard from "./pages/FacultyPortal/FacultyDashboard";
 import AssignedStudentToFaculty from "./pages/FacultyPortal/AssignedStudentToFaculty";
-import FacultyCommentSection from "./pages/FacultyPortal/FacultyCommentSection";
+// import FacultyCommentSection from "./pages/FacultyPortal/FacultyCommentSection";
 import FacultyNotifications from "./pages/FacultyPortal/FacultyNotifications";
 import GenerateMarksheet from "./pages/FacultyPortal/GenerateMarksheet";
 import MarkManagement from "./pages/FacultyPortal/MarkManagement";
@@ -194,10 +194,11 @@ function App() {
           />
 
           {/* Comments */}
+          {/*
           <Route
             path="comments"
             element={<FacultyCommentSection />}
-          />
+          />*/}
 
           {/* Notifications */}
           <Route

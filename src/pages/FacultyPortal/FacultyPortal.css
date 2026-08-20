@@ -1,123 +1,83 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+/* ==========================
+   Dashboard Layout
+========================== */
 
-/* ==========================================
-   GLOBAL
-========================================== */
-
-* {
-  margin: 0;
-  padding: 0;
-
-  box-sizing: border-box;
-
-  font-family: 'Poppins', sans-serif;
+.layout{
+    display:flex;
+    min-height:100vh;
+    background:#f5f7fb;
 }
 
-html,
-body,
-#root {
-  width: 100%;
-  height: 100%;
+/* ==========================
+   Main Content
+========================== */
+
+.main{
+
+    margin-left:270px;
+
+    width:calc(100% - 270px);
+
+    min-height:100vh;
+
+    display:flex;
+
+    flex-direction:column;
+
+    transition:all .3s ease;
+
+    background:#f5f7fb;
 }
 
-body {
-  background: #f4f8fd;
+/* When sidebar collapses */
 
-  overflow: hidden;
+.main.expanded{
+
+    margin-left:80px;
+
+    width:calc(100% - 80px);
 }
 
+/* ==========================
+   Page Content
+========================== */
 
-/* ==========================================
-   FACULTY PORTAL
-========================================== */
+.content{
 
-.portal {
-  display: flex;
+    flex:1;
 
-  width: 100%;
-  height: 100vh;
+    padding:30px;
 
-  overflow: hidden;
+    overflow-x:auto;
 
-  background: #f4f8fd;
+    overflow-y:auto;
+
+    box-sizing:border-box;
 }
 
+/* ==========================
+   Responsive
+========================== */
 
-/* ==========================================
-   MAIN AREA
-========================================== */
+@media(max-width:768px){
 
-.main {
-  flex: 1 1 auto;
+.main{
 
-  min-width: 0;
+    margin-left:0;
 
-  height: 100vh;
-
-  display: flex;
-
-  flex-direction: column;
-
-  overflow: hidden;
-
-  background: #f4f8fd;
+    width:100%;
 }
 
+.main.expanded{
 
-/* ==========================================
-   CONTENT
-========================================== */
+    margin-left:0;
 
-.content {
-  flex: 1 1 auto;
-
-  min-width: 0;
-
-  padding: 30px;
-
-  overflow-y: auto;
-  overflow-x: hidden;
-
-  background: #f4f8fd;
+    width:100%;
 }
 
+.content{
 
-/* ==========================================
-   SCROLLBAR
-========================================== */
-
-.content::-webkit-scrollbar {
-  width: 8px;
+    padding:20px;
 }
-
-.content::-webkit-scrollbar-thumb {
-  background: #b7c8e8;
-
-  border-radius: 10px;
-}
-
-.content::-webkit-scrollbar-track {
-  background: #eef4ff;
-}
-
-
-/* ==========================================
-   RESPONSIVE
-========================================== */
-
-@media (max-width: 768px) {
-
-  .portal {
-    position: relative;
-  }
-
-  .main {
-    width: 100%;
-    min-width: 0;
-  }
-
-  .content {
-    padding: 20px;
-  }
 
 }

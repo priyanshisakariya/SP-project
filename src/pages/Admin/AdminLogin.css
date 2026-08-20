@@ -11,7 +11,7 @@ body {
   overflow-x: hidden;
 }
 
-.login-container {
+.admin-login-container {
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -23,7 +23,7 @@ body {
   background-repeat: no-repeat;
 }
 
-.login-card {
+.admin-login-card {
   width: 100%;
   max-width: 430px;
   padding: 40px;

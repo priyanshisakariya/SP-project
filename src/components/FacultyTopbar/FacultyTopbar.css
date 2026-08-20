@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
 
 /* ==========================================
    TOPBAR
@@ -6,41 +7,51 @@
 
 .topbar {
   width: 100%;
+
   height: 75px;
-  min-height: 75px;
 
   background: #173B63;
 
   display: flex;
+
   justify-content: space-between;
+
   align-items: center;
 
   padding: 0 30px;
 
+  box-sizing: border-box;
+
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
 
   border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+
+  font-family: "Poppins", sans-serif;
 }
 
 
 /* ==========================================
-   LEFT
+   LEFT SECTION
 ========================================== */
 
 .top-left {
   display: flex;
+
   align-items: center;
 
   gap: 18px;
+
+  height: 100%;
 }
 
 
 /* ==========================================
-   BURGER BUTTON
+   MENU BUTTON
 ========================================== */
 
 .menu-btn {
   width: 46px;
+
   height: 46px;
 
   border: none;
@@ -50,36 +61,52 @@
   background: rgba(255, 255, 255, 0.12);
 
   display: flex;
+
   justify-content: center;
+
   align-items: center;
 
   cursor: pointer;
 
-  transition: 0.3s;
+  padding: 0;
+
+  transition: all 0.3s ease;
 }
 
+
 .menu-btn svg {
-  font-size: 22px;
+  font-size: 21px;
 
   color: #ffffff;
 }
 
+
 .menu-btn:hover {
   background: #2F80ED;
+
+  transform: scale(1.04);
+}
+
+
+.menu-btn:active {
+  transform: scale(0.97);
 }
 
 
 /* ==========================================
-   TITLE
+   PORTAL TITLE
 ========================================== */
 
 .portal-title {
-  margin: 0;
-
   font-size: 28px;
+
   font-weight: 700;
 
   color: #ffffff;
+
+  margin: 0;
+
+  white-space: nowrap;
 }
 
 
@@ -89,41 +116,10 @@
 
 .user-section {
   display: flex;
+
   align-items: center;
 
-  gap: 20px;
-}
-
-
-/* ==========================================
-   NOTIFICATION
-========================================== */
-
-.notification {
-  width: 46px;
-  height: 46px;
-
-  border-radius: 50%;
-
-  background: rgba(255, 255, 255, 0.12);
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  cursor: pointer;
-
-  transition: 0.3s;
-}
-
-.notification svg {
-  font-size: 20px;
-
-  color: #ffffff;
-}
-
-.notification:hover {
-  background: #2F80ED;
+  gap: 15px;
 }
 
 
@@ -133,51 +129,107 @@
 
 .profile {
   display: flex;
+
   align-items: center;
 
   gap: 12px;
 
-  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.10);
+
+  padding: 7px 16px 7px 8px;
 
   border-radius: 50px;
 
-  background: rgba(255, 255, 255, 0.1);
-
   border: 1px solid rgba(255, 255, 255, 0.15);
+
+  transition: all 0.3s ease;
 }
 
 
-/* Profile Image */
+.profile:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
 
-.profile-img {
+
+/* ==========================================
+   ADMIN REACT ICON
+========================================== */
+
+.profile-icon {
   width: 46px;
+
   height: 46px;
+
+  min-width: 46px;
 
   border-radius: 50%;
 
-  object-fit: cover;
+  background: #ffffff;
+
+  color: #173B63;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
 
   border: 2px solid #ffffff;
+
+  box-sizing: border-box;
+
+  transition: all 0.3s ease;
 }
 
 
-/* Profile Text */
+.profile-icon svg {
+  font-size: 23px;
+}
 
-.profile-info h4 {
-  margin: 0;
 
-  font-size: 15px;
-  font-weight: 700;
+.profile:hover .profile-icon {
+  background: #2F80ED;
 
   color: #ffffff;
 }
 
-.profile-info p {
-  margin: 3px 0 0;
 
-  font-size: 13px;
+/* ==========================================
+   PROFILE INFORMATION
+========================================== */
+
+.profile-info {
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+}
+
+
+.profile-info h4 {
+  font-size: 15px;
+
+  font-weight: 700;
+
+  color: #ffffff;
+
+  margin: 0;
+
+  line-height: 1.3;
+}
+
+
+.profile-info p {
+  font-size: 12px;
+
+  font-weight: 400;
 
   color: #dbeafe;
+
+  margin: 2px 0 0;
+
+  line-height: 1.3;
 }
 
 
@@ -188,19 +240,91 @@
 @media (max-width: 768px) {
 
   .topbar {
+    height: 70px;
+
     padding: 0 15px;
   }
+
+
+  .top-left {
+    gap: 12px;
+  }
+
+
+  .menu-btn {
+    width: 42px;
+
+    height: 42px;
+
+    border-radius: 10px;
+  }
+
+
+  .menu-btn svg {
+    font-size: 19px;
+  }
+
 
   .portal-title {
     font-size: 22px;
   }
 
+
+  .profile {
+    padding: 6px;
+  }
+
+
   .profile-info {
     display: none;
   }
 
-  .user-section {
-    gap: 12px;
+
+  .profile-icon {
+    width: 42px;
+
+    height: 42px;
+
+    min-width: 42px;
+  }
+
+
+  .profile-icon svg {
+    font-size: 21px;
+  }
+
+}
+
+
+/* ==========================================
+   SMALL MOBILE
+========================================== */
+
+@media (max-width: 480px) {
+
+  .topbar {
+    padding: 0 10px;
+  }
+
+
+  .portal-title {
+    font-size: 19px;
+  }
+
+
+  .menu-btn {
+    width: 40px;
+
+    height: 40px;
+  }
+
+
+  .profile-icon {
+    width: 40px;
+
+    height: 40px;
+
+    min-width: 40px;
   }
 
 }

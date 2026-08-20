@@ -47,10 +47,10 @@ function AssignedStudents() {
           <p>Total Students</p>
         </div>
 
-        <div className="summary-card">
+        {/* <div className="summary-card">
           <h2>20</h2>
           <p>Active</p>
-        </div>
+        </div> */}
 
         <div className="summary-card">
           <h2>3</h2>
