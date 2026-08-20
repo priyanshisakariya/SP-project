@@ -34,7 +34,13 @@ function FacultySidebar({ sidebarOpen }) {
       {/* Menu */}
       <nav className="sidebar-menu">
 
-        <NavLink to="/faculty-portal/faculty-dashboard">
+        <NavLink
+          to="/student-portal"
+          end
+          className={({ isActive }) =>
+            isActive ? "active" : ""
+          }
+        >
           <FaHome />
           <span>Dashboard</span>
         </NavLink>

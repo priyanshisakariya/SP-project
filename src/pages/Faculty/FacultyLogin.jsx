@@ -3,6 +3,7 @@ import "./FacultyLogin.css";
 import { useNavigate } from "react-router-dom";
 
 function FacultyLogin() {
+
   const navigate = useNavigate();
 
   const [faculty, setFaculty] = useState({
@@ -18,59 +19,81 @@ function FacultyLogin() {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
 
-  console.log(faculty);
+    e.preventDefault();
 
-  try {
-    const response = await fetch(
-      "http://localhost:8081/faculty/loginform/save",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(faculty),
+    console.log("Login data:", faculty);
+
+    try {
+
+      const response = await fetch(
+        "http://localhost:8081/api/faculty/login",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify(faculty),
+        }
+      );
+
+      if (response.ok) {
+
+        const data = await response.json();
+
+        console.log("Login successful:", data);
+
+        alert("Login Successful!");
+
+        // Store faculty information for later use
+        localStorage.setItem(
+          "faculty",
+          JSON.stringify(data)
+        );
+
+        navigate("/faculty-dashboard");
+
+      } else {
+
+        const error = await response.text();
+
+        console.error("Login failed:", error);
+
+        alert(error);
       }
-    );
 
-  if (response.ok) {
+    } catch (error) {
 
-    const message = await response.text();
+      console.error("Server Error:", error);
 
-    alert(message);
-
-    navigate("/faculty-dashboard");
-
-} else {
-
-    const error = await response.text();
-
-    alert(error);
-
-}
-  } catch (error) {
-    console.error(error);
-    alert("Server Error!");
-  }
-};
+      alert("Unable to connect to server!");
+    }
+  };
 
   return (
+
     <div className="login-container">
+
       <h2>Faculty Login</h2>
 
       <form onSubmit={handleSubmit}>
+
         <label>Phone Number</label>
+
         <input
           type="text"
           name="phoneNumber"
           placeholder="Enter Phone Number"
           value={faculty.phoneNumber}
           onChange={handleChange}
+          maxLength="10"
           required
         />
 
         <label>Password</label>
+
         <input
           type="password"
           name="password"
@@ -80,15 +103,24 @@ function FacultyLogin() {
           required
         />
 
-        <button type="submit">Login</button>
+        <button type="submit">
+          Login
+        </button>
 
         <p className="register-link">
+
           Don't Have an Account?
-          <span onClick={() => navigate("/faculty-register")}>
+
+          <span
+            onClick={() => navigate("/faculty-register")}
+          >
             {" "}Register
           </span>
+
         </p>
+
       </form>
+
     </div>
   );
 }

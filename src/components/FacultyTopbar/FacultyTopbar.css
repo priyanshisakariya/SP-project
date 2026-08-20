@@ -1,330 +1,234 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
-
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 /* ==========================================
    TOPBAR
 ========================================== */
 
-.topbar {
-  width: 100%;
+.topbar{
 
-  height: 75px;
+    height:75px;
 
-  background: #173B63;
+    background:#173B63;
 
-  display: flex;
+    display:flex;
 
-  justify-content: space-between;
+    justify-content:space-between;
 
-  align-items: center;
+    align-items:center;
 
-  padding: 0 30px;
+    padding:0 30px;
 
-  box-sizing: border-box;
+    box-shadow:0 3px 12px rgba(0,0,0,.15);
 
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+    border-bottom:1px solid rgba(255,255,255,.15);
 
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-
-  font-family: "Poppins", sans-serif;
 }
-
 
 /* ==========================================
    LEFT SECTION
 ========================================== */
 
-.top-left {
-  display: flex;
+.top-left{
 
-  align-items: center;
+    display:flex;
 
-  gap: 18px;
+    align-items:center;
 
-  height: 100%;
+    gap:18px;
+
 }
 
+.menu-btn{
 
-/* ==========================================
-   MENU BUTTON
-========================================== */
+    width:46px;
 
-.menu-btn {
-  width: 46px;
+    height:46px;
 
-  height: 46px;
+    border:none;
 
-  border: none;
+    border-radius:12px;
 
-  border-radius: 12px;
+    background:rgba(255,255,255,.12);
 
-  background: rgba(255, 255, 255, 0.12);
+    display:flex;
 
-  display: flex;
+    justify-content:center;
 
-  justify-content: center;
+    align-items:center;
 
-  align-items: center;
+    cursor:pointer;
 
-  cursor: pointer;
+    transition:.3s;
+    margin-bottom: 25px;
 
-  padding: 0;
-
-  transition: all 0.3s ease;
 }
 
+.menu-btn svg{
 
-.menu-btn svg {
-  font-size: 21px;
+    font-size:22px;
 
-  color: #ffffff;
+    color:#ffffff;
+
 }
 
+.menu-btn:hover{
 
-.menu-btn:hover {
-  background: #2F80ED;
+    background:#2F80ED;
 
-  transform: scale(1.04);
 }
 
+.portal-title{
 
-.menu-btn:active {
-  transform: scale(0.97);
+    font-size:28px;
+
+    font-weight:700;
+
+    color:#ffffff;
+
+    margin:0;
+
 }
-
-
-/* ==========================================
-   PORTAL TITLE
-========================================== */
-
-.portal-title {
-  font-size: 28px;
-
-  font-weight: 700;
-
-  color: #ffffff;
-
-  margin: 0;
-
-  white-space: nowrap;
-}
-
 
 /* ==========================================
    RIGHT SECTION
 ========================================== */
 
-.user-section {
-  display: flex;
+.user-section{
 
-  align-items: center;
+    display:flex;
 
-  gap: 15px;
+    align-items:center;
+
+    gap:20px;
+
 }
 
+/* ==========================================
+   NOTIFICATION
+========================================== */
+
+.notification{
+
+    width:46px;
+
+    height:46px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.12);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.notification svg{
+
+    font-size:20px;
+
+    color:#ffffff;
+
+}
+
+.notification:hover{
+
+    background:#2F80ED;
+
+}
 
 /* ==========================================
    PROFILE
 ========================================== */
 
-.profile {
-  display: flex;
+.profile{
 
-  align-items: center;
+    display:flex;
 
-  gap: 12px;
+    align-items:center;
 
-  background: rgba(255, 255, 255, 0.10);
+    gap:12px;
 
-  padding: 7px 16px 7px 8px;
+    background:rgba(255,255,255,.10);
 
-  border-radius: 50px;
+    padding:8px 16px;
 
-  border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius:50px;
 
-  transition: all 0.3s ease;
+    border:1px solid rgba(255,255,255,.15);
+
 }
 
+.profile-img{
 
-.profile:hover {
-  background: rgba(255, 255, 255, 0.16);
+    width:46px;
+
+    height:46px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:2px solid #ffffff;
+
 }
 
+.profile-info h4{
 
-/* ==========================================
-   ADMIN REACT ICON
-========================================== */
+    font-size:15px;
 
-.profile-icon {
-  width: 46px;
+    font-weight:700;
 
-  height: 46px;
+    color:#ffffff;
 
-  min-width: 46px;
+    margin:0;
 
-  border-radius: 50%;
-
-  background: #ffffff;
-
-  color: #173B63;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  border: 2px solid #ffffff;
-
-  box-sizing: border-box;
-
-  transition: all 0.3s ease;
 }
 
+.profile-info p{
 
-.profile-icon svg {
-  font-size: 23px;
+    font-size:13px;
+
+    color:#dbeafe;
+
+    margin-top:3px;
+
 }
-
-
-.profile:hover .profile-icon {
-  background: #2F80ED;
-
-  color: #ffffff;
-}
-
-
-/* ==========================================
-   PROFILE INFORMATION
-========================================== */
-
-.profile-info {
-  display: flex;
-
-  flex-direction: column;
-
-  justify-content: center;
-}
-
-
-.profile-info h4 {
-  font-size: 15px;
-
-  font-weight: 700;
-
-  color: #ffffff;
-
-  margin: 0;
-
-  line-height: 1.3;
-}
-
-
-.profile-info p {
-  font-size: 12px;
-
-  font-weight: 400;
-
-  color: #dbeafe;
-
-  margin: 2px 0 0;
-
-  line-height: 1.3;
-}
-
 
 /* ==========================================
    RESPONSIVE
 ========================================== */
 
-@media (max-width: 768px) {
+@media(max-width:768px){
 
-  .topbar {
-    height: 70px;
+.topbar{
 
-    padding: 0 15px;
-  }
-
-
-  .top-left {
-    gap: 12px;
-  }
-
-
-  .menu-btn {
-    width: 42px;
-
-    height: 42px;
-
-    border-radius: 10px;
-  }
-
-
-  .menu-btn svg {
-    font-size: 19px;
-  }
-
-
-  .portal-title {
-    font-size: 22px;
-  }
-
-
-  .profile {
-    padding: 6px;
-  }
-
-
-  .profile-info {
-    display: none;
-  }
-
-
-  .profile-icon {
-    width: 42px;
-
-    height: 42px;
-
-    min-width: 42px;
-  }
-
-
-  .profile-icon svg {
-    font-size: 21px;
-  }
+    padding:0 15px;
 
 }
 
+.portal-title{
 
-/* ==========================================
-   SMALL MOBILE
-========================================== */
+    font-size:22px;
+    margin-left: 300px;
+}
 
-@media (max-width: 480px) {
+.profile-info{
 
-  .topbar {
-    padding: 0 10px;
-  }
+    display:none;
 
+}
 
-  .portal-title {
-    font-size: 19px;
-  }
+.user-section{
 
+    gap:12px;
 
-  .menu-btn {
-    width: 40px;
-
-    height: 40px;
-  }
-
-
-  .profile-icon {
-    width: 40px;
-
-    height: 40px;
-
-    min-width: 40px;
-  }
+}
 
 }
