@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+// ================= PUBLIC =================
 import Home from "./pages/Home/Home";
 import About from "./pages/About/About";
 import Services from "./pages/Services/Services";
@@ -19,6 +20,8 @@ import Notifications from "./pages/Portal/Notifications";
 
 // ================= ADMIN =================
 import AdminLogin from "./pages/Admin/AdminLogin";
+import ForgotPassword from "./pages/Admin/ForgotPassword";
+
 import AdminLayout from "./layouts/AdminLayout";
 import AdminHome from "./pages/Admin/AdminHome";
 import AssignedStudents from "./pages/Admin/AssignedStudents";
@@ -96,7 +99,7 @@ function App() {
           element={<StudentPortal />}
         >
 
-          {/* Student Dashboard */}
+          {/* Dashboard */}
           <Route
             index
             element={<Dashboard />}
@@ -145,9 +148,19 @@ function App() {
             ADMIN AUTHENTICATION
         ===================================================== */}
 
+        {/* Admin Login */}
         <Route
           path="/admin-login"
           element={<AdminLogin />}
+        />
+
+        {/* Forgot Password
+            IMPORTANT:
+            This route is OUTSIDE AdminLayout
+        */}
+        <Route
+          path="/forgot-password"
+          element={<ForgotPassword />}
         />
 
 
@@ -184,7 +197,7 @@ function App() {
             element={<MentorAssignment />}
           />
 
-          {/* Reports */}
+          {/* Faculty Student Allocation */}
           <Route
             path="notifications"
             element={<FacultyStudentAllocation />}

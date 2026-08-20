@@ -121,3 +121,21 @@ body {
     font-size: 28px;
   }
 }
+.error-message {
+  background-color: #ffe5e5;
+  color: #d00000;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 14px;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.forgot-password span {
+  cursor: pointer;
+}

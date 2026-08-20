@@ -1,195 +1,530 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./MentorAssignment.css";
 
-function MentorAssignment() {
-  const facultyList = [
-    { name: "Prof. Payal Patel", department: "MCA" },
-    { name: "Dr. Patel", department: "MCA" },
-    { name: "Prof. Shah", department: "IT" },
-    { name: "Prof. Mehta", department: "CE" },
-    { name: "Prof. Joshi", department: "MCA" },
-  ];
+const API_URL = "http://localhost:8080/api/mentor-assignments";
 
-  const [assignments, setAssignments] = useState([
-    {
-      id: 1,
-      project: "Student Portal",
-      student: "Khushi Undhad",
-      mentor: "Dr. Patel",
-      department: "MCA",
-      status: "Assigned",
-    },
-    {
-      id: 2,
-      project: "Library Management",
-      student: "Priyanshi",
-      mentor: "",
-      department: "",
-      status: "Pending",
-    },
-  ]);
+function MentorAssignment() {
+  const [assignments, setAssignments] = useState([]);
+  const [facultyList, setFacultyList] = useState([]);
 
   const [editId, setEditId] = useState(null);
   const [selectedFaculty, setSelectedFaculty] = useState("");
 
-  const deleteAssignment = (id) => {
-    setAssignments(assignments.filter((item) => item.id !== id));
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const [loading, setLoading] = useState(true);
+  const [facultyLoading, setFacultyLoading] = useState(true);
+
+  const [error, setError] = useState("");
+
+  // =====================================================
+  // FETCH ASSIGNMENTS
+  // =====================================================
+  const fetchAssignments = async () => {
+    try {
+      const response = await fetch(API_URL);
+
+      if (!response.ok) {
+        throw new Error(
+          `Failed to load assignments: ${response.status}`
+        );
+      }
+
+      const data = await response.json();
+
+      if (!Array.isArray(data)) {
+        throw new Error("Invalid assignments response");
+      }
+
+      return data;
+    } catch (error) {
+      console.error("FETCH ASSIGNMENTS ERROR:", error);
+      throw error;
+    }
   };
 
-  const assignMentor = (id) => {
+  // =====================================================
+  // FETCH FACULTY
+  // =====================================================
+  const fetchFaculty = async () => {
+    try {
+      const response = await fetch(`${API_URL}/faculty`);
+
+      if (!response.ok) {
+        throw new Error(
+          `Failed to load faculty: ${response.status}`
+        );
+      }
+
+      const data = await response.json();
+
+      if (!Array.isArray(data)) {
+        throw new Error("Invalid faculty response");
+      }
+
+      return data;
+    } catch (error) {
+      console.error("FETCH FACULTY ERROR:", error);
+      throw error;
+    }
+  };
+
+  // =====================================================
+  // LOAD DATA WHEN PAGE OPENS
+  // =====================================================
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadData = async () => {
+      try {
+        const [assignmentsData, facultyData] =
+          await Promise.all([
+            fetchAssignments(),
+            fetchFaculty(),
+          ]);
+
+        if (cancelled) {
+          return;
+        }
+
+        setAssignments(assignmentsData);
+        setFacultyList(facultyData);
+        setError("");
+      } catch (error) {
+        if (cancelled) {
+          return;
+        }
+
+        console.error("LOAD DATA ERROR:", error);
+
+        setError(
+          "Unable to load data. Make sure Spring Boot is running on port 8080."
+        );
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+          setFacultyLoading(false);
+        }
+      }
+    };
+
+    loadData();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // =====================================================
+  // DELETE ASSIGNMENT
+  // =====================================================
+  const deleteAssignment = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this assignment?"
+    );
+
+    if (!confirmDelete) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_URL}/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Delete failed: ${response.status}`
+        );
+      }
+
+      setAssignments((previousAssignments) =>
+        previousAssignments.filter(
+          (assignment) => assignment.id !== id
+        )
+      );
+
+      if (editId === id) {
+        setEditId(null);
+        setSelectedFaculty("");
+      }
+
+      alert("Assignment deleted successfully.");
+    } catch (error) {
+      console.error("DELETE ERROR:", error);
+
+      alert(
+        "Unable to delete assignment. Please check the backend."
+      );
+    }
+  };
+
+  // =====================================================
+  // ASSIGN MENTOR
+  // =====================================================
+  const assignMentor = async (assignmentId) => {
     if (!selectedFaculty) {
       alert("Please select a faculty.");
       return;
     }
 
-    const faculty = facultyList.find(
-      (f) => `${f.name} (${f.department})` === selectedFaculty
-    );
+    try {
+      const response = await fetch(
+        `${API_URL}/${assignmentId}/assign/${selectedFaculty}`,
+        {
+          method: "PUT",
+          headers: {
+            Accept: "application/json",
+          },
+        }
+      );
 
-    const updatedAssignments = assignments.map((item) =>
-      item.id === id
-        ? {
-            ...item,
-            mentor: faculty.name,
-            department: faculty.department,
-            status: "Assigned",
-          }
-        : item
-    );
+      if (!response.ok) {
+        const errorText = await response.text();
 
-    setAssignments(updatedAssignments);
+        console.error(
+          "ASSIGN MENTOR SERVER ERROR:",
+          errorText
+        );
+
+        throw new Error(
+          `Assignment failed: ${response.status}`
+        );
+      }
+
+      const updatedAssignment = await response.json();
+
+      setAssignments((previousAssignments) =>
+        previousAssignments.map((assignment) =>
+          assignment.id === assignmentId
+            ? updatedAssignment
+            : assignment
+        )
+      );
+
+      setEditId(null);
+      setSelectedFaculty("");
+
+      alert("Mentor assigned successfully.");
+    } catch (error) {
+      console.error("ASSIGN MENTOR ERROR:", error);
+
+      alert(
+        "Unable to assign mentor. Please check the backend."
+      );
+    }
+  };
+
+  // =====================================================
+  // SEARCH
+  // =====================================================
+  const filteredAssignments = assignments.filter(
+    (assignment) => {
+      const search = searchTerm.trim().toLowerCase();
+
+      if (!search) {
+        return true;
+      }
+
+      return (
+        (assignment.project || "")
+          .toLowerCase()
+          .includes(search) ||
+        (assignment.student || "")
+          .toLowerCase()
+          .includes(search) ||
+        (assignment.mentor || "")
+          .toLowerCase()
+          .includes(search) ||
+        (assignment.department || "")
+          .toLowerCase()
+          .includes(search) ||
+        (assignment.status || "")
+          .toLowerCase()
+          .includes(search)
+      );
+    }
+  );
+
+  // =====================================================
+  // COUNTS
+  // =====================================================
+  const totalAssignments = assignments.length;
+
+  const assignedCount = assignments.filter(
+    (assignment) =>
+      assignment.status === "Assigned"
+  ).length;
+
+  const pendingCount = assignments.filter(
+    (assignment) =>
+      assignment.status === "Pending"
+  ).length;
+
+  // =====================================================
+  // OPEN EDIT
+  // =====================================================
+  const openEdit = (id) => {
+    setEditId(id);
+    setSelectedFaculty("");
+  };
+
+  // =====================================================
+  // CANCEL EDIT
+  // =====================================================
+  const cancelEdit = () => {
     setEditId(null);
     setSelectedFaculty("");
   };
 
+  // =====================================================
+  // UI
+  // =====================================================
   return (
     <div className="mentor-page">
+
       <h1>Mentor Assignment</h1>
 
-      {/* Cards */}
+      {/* ERROR MESSAGE */}
+      {error && (
+        <div className="error-message">
+          {error}
+        </div>
+      )}
 
+      {/* =================================================
+          CARDS
+      ================================================= */}
       <div className="mentor-cards">
+
         <div className="mentor-card">
-          <h2>{assignments.length}</h2>
+          <h2>{totalAssignments}</h2>
           <p>Total Assignments</p>
         </div>
 
         <div className="mentor-card">
-          <h2>
-            {assignments.filter((a) => a.status === "Assigned").length}
-          </h2>
+          <h2>{assignedCount}</h2>
           <p>Assigned</p>
         </div>
 
         <div className="mentor-card">
-          <h2>
-            {assignments.filter((a) => a.status === "Pending").length}
-          </h2>
+          <h2>{pendingCount}</h2>
           <p>Pending</p>
         </div>
+
       </div>
 
-      {/* Search */}
-
+      {/* =================================================
+          SEARCH
+      ================================================= */}
       <div className="mentor-search">
+
         <input
           type="text"
           placeholder="Search Student or Project..."
+          value={searchTerm}
+          onChange={(event) =>
+            setSearchTerm(event.target.value)
+          }
         />
+
       </div>
 
-      {/* Table */}
-
+      {/* =================================================
+          TABLE
+      ================================================= */}
       <div className="mentor-table">
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Project</th>
-              <th>Student</th>
-              <th>Mentor</th>
-              <th>Department</th>
-              <th>Status</th>
-              <th width="280">Action</th>
-            </tr>
-          </thead>
 
-          <tbody>
-            {assignments.map((item) => (
-              <tr key={item.id}>
-                <td>{item.id}</td>
-                <td>{item.project}</td>
-                <td>{item.student}</td>
-                <td>{item.mentor || "-"}</td>
-                <td>{item.department || "-"}</td>
+        {loading ? (
 
-                <td>
-                  <span
-                    className={
-                      item.status === "Assigned"
-                        ? "status assigned"
-                        : "status pending"
-                    }
-                  >
-                    {item.status}
-                  </span>
-                </td>
+          <p className="loading-text">
+            Loading assignments...
+          </p>
 
-                <td>
-                  {editId === item.id ? (
-                    <div className="assign-section">
-                      <select
-                        value={selectedFaculty}
-                        onChange={(e) =>
-                          setSelectedFaculty(e.target.value)
-                        }
-                      >
-                        <option value="">
-                          Select Faculty
-                        </option>
+        ) : (
 
-                        {facultyList.map((faculty, index) => (
-                          <option
-                            key={index}
-                            value={`${faculty.name} (${faculty.department})`}
-                          >
-                            {faculty.name} ({faculty.department})
-                          </option>
-                        ))}
-                      </select>
+          <table>
 
-                      <button
-                        className="assign-btn"
-                        onClick={() => assignMentor(item.id)}
-                      >
-                        Assign
-                      </button>
-                    </div>
-                  ) : (
-                    <>
-                      <button
-                        className="edit-btn"
-                        onClick={() => setEditId(item.id)}
-                      >
-                        Edit
-                      </button>
-
-                      <button
-                        className="delete-btn"
-                        onClick={() =>
-                          deleteAssignment(item.id)
-                        }
-                      >
-                        Delete
-                      </button>
-                    </>
-                  )}
-                </td>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Project</th>
+                <th>Student</th>
+                <th>Mentor</th>
+                <th>Department</th>
+                <th>Status</th>
+                <th>Action</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+
+            <tbody>
+
+              {filteredAssignments.length === 0 ? (
+
+                <tr>
+                  <td colSpan="7">
+                    No assignments found.
+                  </td>
+                </tr>
+
+              ) : (
+
+                filteredAssignments.map(
+                  (assignment) => (
+
+                    <tr key={assignment.id}>
+
+                      <td>
+                        {assignment.id}
+                      </td>
+
+                      <td>
+                        {assignment.project || "-"}
+                      </td>
+
+                      <td>
+                        {assignment.student || "-"}
+                      </td>
+
+                      <td>
+                        {assignment.mentor || "-"}
+                      </td>
+
+                      <td>
+                        {assignment.department || "-"}
+                      </td>
+
+                      <td>
+
+                        <span
+                          className={
+                            assignment.status ===
+                            "Assigned"
+                              ? "status assigned"
+                              : "status pending"
+                          }
+                        >
+                          {assignment.status ||
+                            "Pending"}
+                        </span>
+
+                      </td>
+
+                      <td>
+
+                        {editId === assignment.id ? (
+
+                          <div className="assign-section">
+
+                            <select
+                              value={selectedFaculty}
+                              onChange={(event) =>
+                                setSelectedFaculty(
+                                  event.target.value
+                                )
+                              }
+                              disabled={facultyLoading}
+                            >
+
+                              <option value="">
+                                {facultyLoading
+                                  ? "Loading Faculty..."
+                                  : "Select Faculty"}
+                              </option>
+
+                              {facultyList.map(
+                                (faculty) => (
+
+                                  <option
+                                    key={faculty.id}
+                                    value={faculty.id}
+                                  >
+                                    {faculty.name}
+                                    {faculty.department
+                                      ? ` (${faculty.department})`
+                                      : ""}
+                                  </option>
+
+                                )
+                              )}
+
+                            </select>
+
+                            <button
+                              type="button"
+                              className="assign-btn"
+                              onClick={() =>
+                                assignMentor(
+                                  assignment.id
+                                )
+                              }
+                              disabled={
+                                facultyLoading ||
+                                !selectedFaculty
+                              }
+                            >
+                              Assign
+                            </button>
+
+                            <button
+                              type="button"
+                              className="cancel-btn"
+                              onClick={cancelEdit}
+                            >
+                              Cancel
+                            </button>
+
+                          </div>
+
+                        ) : (
+
+                          <div className="action-buttons">
+
+                            <button
+                              type="button"
+                              className="edit-btn"
+                              onClick={() =>
+                                openEdit(
+                                  assignment.id
+                                )
+                              }
+                            >
+                              Edit
+                            </button>
+
+                            <button
+                              type="button"
+                              className="delete-btn"
+                              onClick={() =>
+                                deleteAssignment(
+                                  assignment.id
+                                )
+                              }
+                            >
+                              Delete
+                            </button>
+
+                          </div>
+
+                        )}
+
+                      </td>
+
+                    </tr>
+
+                  )
+                )
+
+              )}
+
+            </tbody>
+
+          </table>
+
+        )}
+
       </div>
+
     </div>
   );
 }
