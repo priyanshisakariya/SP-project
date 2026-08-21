@@ -219,7 +219,7 @@ function App() {
 
           {/* Faculty Dashboard */}
           <Route
-            index
+            path="faculty-dashboard"
             element={<FacultyDashboard />}
           />
 

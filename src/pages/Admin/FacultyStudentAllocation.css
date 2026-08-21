@@ -1,104 +1,188 @@
+/* =====================================================
+   GLOBAL
+===================================================== */
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Main Container */
+
+/* =====================================================
+   MAIN CONTAINER
+===================================================== */
 
 .faculty-allocation-container {
   width: 100%;
   min-height: 100vh;
+
   padding: 30px;
+
   background: #f5f7fb;
 }
 
-/* Header */
+
+/* =====================================================
+   HEADER
+===================================================== */
 
 .allocation-header {
   width: 100%;
+
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
-  margin-bottom: 25px;
+
+  gap: 25px;
+
+  margin-bottom: 28px;
 }
 
-/* Page Title */
+
+/* =====================================================
+   PAGE TITLE
+===================================================== */
 
 .table-title {
-  flex: 1;
-  text-align: center;
-  font-size: 30px;
-  font-weight: 700;
-  color: #4b2e83;
   margin: 0;
+
+  padding: 0;
+
+  color: #4b2e83;
+
+  font-size: 32px;
+
+  font-weight: 700;
+
+  line-height: 1.2;
+
+  white-space: nowrap;
+
+  flex: 0 0 auto;
 }
 
-/* Download Button */
+
+/* =====================================================
+   DOWNLOAD BUTTON
+===================================================== */
 
 .download-pdf-btn {
-  display: flex;
+  display: inline-flex;
+
   align-items: center;
+
   justify-content: center;
+
   gap: 8px;
 
-  padding: 11px 18px;
+  width: auto;
+
+  min-width: 170px;
+
+  height: 46px;
+
+  padding: 0 20px;
 
   background: #4b2e83;
-  color: white;
+
+  color: #ffffff;
 
   border: none;
+
   border-radius: 7px;
 
+  font-family: inherit;
+
   font-size: 14px;
+
   font-weight: 600;
+
+  white-space: nowrap;
 
   cursor: pointer;
 
-  transition: all 0.3s ease;
+  flex: 0 0 auto;
 
-  box-shadow: 0 3px 8px rgba(75, 46, 131, 0.25);
+  box-shadow:
+    0 3px 8px rgba(75, 46, 131, 0.25);
+
+  transition:
+    background 0.3s ease,
+    transform 0.2s ease,
+    box-shadow 0.3s ease;
 }
 
-/* Download Icon */
+
+/* =====================================================
+   DOWNLOAD ICON
+===================================================== */
 
 .download-icon {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
   font-size: 20px;
-  font-weight: bold;
-  line-height: 14px;
+
+  font-weight: 700;
+
+  line-height: 1;
 }
 
-/* Button Hover */
+
+/* =====================================================
+   BUTTON HOVER
+===================================================== */
 
 .download-pdf-btn:hover {
   background: #382263;
+
   transform: translateY(-1px);
-  box-shadow: 0 5px 12px rgba(75, 46, 131, 0.35);
+
+  box-shadow:
+    0 5px 12px rgba(75, 46, 131, 0.35);
 }
 
-/* Button Active */
+
+/* =====================================================
+   BUTTON ACTIVE
+===================================================== */
 
 .download-pdf-btn:active {
   transform: translateY(0);
 }
 
-/* Table Wrapper */
+
+/* =====================================================
+   TABLE WRAPPER
+===================================================== */
 
 .table-responsive {
   width: 100%;
+
   overflow-x: auto;
 
   background: #ffffff;
 
   border-radius: 10px;
 
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  box-shadow:
+    0 5px 15px rgba(0, 0, 0, 0.08);
 }
 
-/* Table */
+
+/* =====================================================
+   TABLE
+===================================================== */
 
 .allocation-table {
   width: 100%;
+
   min-width: 1200px;
 
   border-collapse: collapse;
@@ -106,34 +190,43 @@
   background: #ffffff;
 }
 
-/* Table Header */
+
+/* =====================================================
+   TABLE HEADER
+===================================================== */
 
 .allocation-table thead {
-  background: #5b3f8c;
+  background: #2f80ed;
 }
 
 .allocation-table thead th {
   color: #ffffff;
 
   font-size: 15px;
+
   font-weight: 600;
 
   padding: 14px 10px;
 
   text-align: center;
+
   vertical-align: middle;
 
-  border: 1px solid #4a3473;
+  border: 1px solid #246fc9;
 
   line-height: 1.4;
 }
 
-/* Table Body */
+
+/* =====================================================
+   TABLE BODY
+===================================================== */
 
 .allocation-table tbody td {
   padding: 18px 10px;
 
   text-align: center;
+
   vertical-align: middle;
 
   border: 1px solid #d8d8d8;
@@ -143,32 +236,53 @@
   color: #333333;
 
   line-height: 1.4;
+
+  background: #ffffff;
 }
 
-/* Alternate Rows */
+
+/* =====================================================
+   ALTERNATE ROWS
+===================================================== */
 
 .allocation-table tbody tr:nth-child(even) {
   background: #fafafa;
 }
 
-/* Hover */
-
-.allocation-table tbody tr:hover {
-  background: #f2ecff;
-  transition: 0.3s ease;
+.allocation-table tbody tr:nth-child(even) td {
+  background: #fafafa;
 }
 
-/* Student Names */
+
+/* =====================================================
+   ROW HOVER
+===================================================== */
+
+.allocation-table tbody tr:hover td {
+  background: #f2ecff;
+
+  transition: background 0.3s ease;
+}
+
+
+/* =====================================================
+   STUDENT NAMES
+===================================================== */
 
 .allocation-table td:nth-child(3),
 .allocation-table td:nth-child(5),
 .allocation-table td:nth-child(7) {
   font-weight: 600;
+
   text-transform: uppercase;
+
   line-height: 1.4;
 }
 
-/* Enrollment Numbers */
+
+/* =====================================================
+   ENROLLMENT NUMBERS
+===================================================== */
 
 .allocation-table td:nth-child(2),
 .allocation-table td:nth-child(4),
@@ -176,13 +290,19 @@
   white-space: nowrap;
 }
 
-/* Faculty Guide */
+
+/* =====================================================
+   FACULTY GUIDE
+===================================================== */
 
 .allocation-table td:nth-child(8) {
   font-weight: 500;
 }
 
-/* Scrollbar */
+
+/* =====================================================
+   TABLE SCROLLBAR
+===================================================== */
 
 .table-responsive::-webkit-scrollbar {
   height: 8px;
@@ -190,11 +310,13 @@
 
 .table-responsive::-webkit-scrollbar-track {
   background: #eeeeee;
+
   border-radius: 10px;
 }
 
 .table-responsive::-webkit-scrollbar-thumb {
   background: #5b3f8c;
+
   border-radius: 10px;
 }
 
@@ -203,9 +325,26 @@
 }
 
 
-/* =========================================
-   Responsive Design
-   ========================================= */
+/* =====================================================
+   LARGE SCREEN
+===================================================== */
+
+@media (min-width: 1200px) {
+
+  .allocation-header {
+    align-items: center;
+  }
+
+  .table-title {
+    font-size: 32px;
+  }
+
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
 
 @media (max-width: 900px) {
 
@@ -214,42 +353,75 @@
   }
 
   .allocation-header {
-    flex-direction: column;
-    gap: 18px;
+    gap: 15px;
   }
 
   .table-title {
+    font-size: 27px;
+  }
+
+  .download-pdf-btn {
+    min-width: 160px;
+
+    height: 44px;
+
+    padding: 0 16px;
+  }
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 700px) {
+
+  .allocation-header {
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 15px;
+  }
+
+  .table-title {
+    text-align: center;
+
+    white-space: normal;
+
     font-size: 25px;
   }
 
   .download-pdf-btn {
-    align-self: flex-end;
+    align-self: center;
+
+    min-width: 170px;
   }
+
 }
 
 
-@media (max-width: 768px) {
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 480px) {
 
   .faculty-allocation-container {
     padding: 15px;
   }
 
-  .allocation-header {
-    align-items: stretch;
-  }
-
   .table-title {
     font-size: 22px;
-    text-align: center;
   }
 
   .download-pdf-btn {
-    align-self: center;
+    min-width: 160px;
+
+    height: 42px;
+
+    font-size: 13px;
   }
 
-  .allocation-table thead th,
-  .allocation-table tbody td {
-    font-size: 13px;
-    padding: 12px 8px;
-  }
 }

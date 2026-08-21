@@ -84,7 +84,7 @@ function FacultyLogin() {
 
         <p className="register-link">
           Don't Have an Account?
-          <span onClick={() => navigate("/faculty-portal")}>
+          <span onClick={() => navigate("/faculty-register")}>
             {" "}Register
           </span>
         </p>

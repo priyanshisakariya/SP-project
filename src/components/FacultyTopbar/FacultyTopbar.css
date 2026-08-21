@@ -4,231 +4,203 @@
    TOPBAR
 ========================================== */
 
-.topbar{
+.topbar {
+  width: 100%;
+  height: 75px;
+  min-height: 75px;
 
-    height:75px;
+  background: #173B63;
 
-    background:#173B63;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-    display:flex;
+  padding: 0 30px;
 
-    justify-content:space-between;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
 
-    align-items:center;
-
-    padding:0 30px;
-
-    box-shadow:0 3px 12px rgba(0,0,0,.15);
-
-    border-bottom:1px solid rgba(255,255,255,.15);
-
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
+
 
 /* ==========================================
-   LEFT SECTION
+   LEFT
 ========================================== */
 
-.top-left{
+.top-left {
+  display: flex;
+  align-items: center;
 
-    display:flex;
-
-    align-items:center;
-
-    gap:18px;
-
+  gap: 18px;
 }
 
-.menu-btn{
 
-    width:46px;
+/* ==========================================
+   BURGER BUTTON
+========================================== */
 
-    height:46px;
+.menu-btn {
+  width: 46px;
+  height: 46px;
 
-    border:none;
+  border: none;
 
-    border-radius:12px;
+  border-radius: 12px;
 
-    background:rgba(255,255,255,.12);
+  background: rgba(255, 255, 255, 0.12);
 
-    display:flex;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    justify-content:center;
+  cursor: pointer;
 
-    align-items:center;
-
-    cursor:pointer;
-
-    transition:.3s;
-    margin-bottom: 25px;
-
+  transition: 0.3s;
 }
 
-.menu-btn svg{
+.menu-btn svg {
+  font-size: 22px;
 
-    font-size:22px;
-
-    color:#ffffff;
-
+  color: #ffffff;
 }
 
-.menu-btn:hover{
-
-    background:#2F80ED;
-
+.menu-btn:hover {
+  background: #2F80ED;
 }
 
-.portal-title{
 
-    font-size:28px;
+/* ==========================================
+   TITLE
+========================================== */
 
-    font-weight:700;
+.portal-title {
+  margin: 0;
 
-    color:#ffffff;
+  font-size: 28px;
+  font-weight: 700;
 
-    margin:0;
-
+  color: #ffffff;
 }
+
 
 /* ==========================================
    RIGHT SECTION
 ========================================== */
 
-.user-section{
+.user-section {
+  display: flex;
+  align-items: center;
 
-    display:flex;
-
-    align-items:center;
-
-    gap:20px;
-
+  gap: 20px;
 }
+
 
 /* ==========================================
    NOTIFICATION
 ========================================== */
 
-.notification{
+.notification {
+  width: 46px;
+  height: 46px;
 
-    width:46px;
+  border-radius: 50%;
 
-    height:46px;
+  background: rgba(255, 255, 255, 0.12);
 
-    border-radius:50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    background:rgba(255,255,255,.12);
+  cursor: pointer;
 
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    cursor:pointer;
-
-    transition:.3s;
-
+  transition: 0.3s;
 }
 
-.notification svg{
+.notification svg {
+  font-size: 20px;
 
-    font-size:20px;
-
-    color:#ffffff;
-
+  color: #ffffff;
 }
 
-.notification:hover{
-
-    background:#2F80ED;
-
+.notification:hover {
+  background: #2F80ED;
 }
+
 
 /* ==========================================
    PROFILE
 ========================================== */
 
-.profile{
+.profile {
+  display: flex;
+  align-items: center;
 
-    display:flex;
+  gap: 12px;
 
-    align-items:center;
+  padding: 8px 16px;
 
-    gap:12px;
+  border-radius: 50px;
 
-    background:rgba(255,255,255,.10);
+  background: rgba(255, 255, 255, 0.1);
 
-    padding:8px 16px;
-
-    border-radius:50px;
-
-    border:1px solid rgba(255,255,255,.15);
-
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-.profile-img{
 
-    width:46px;
+/* Profile Image */
 
-    height:46px;
+.profile-img {
+  width: 46px;
+  height: 46px;
 
-    border-radius:50%;
+  border-radius: 50%;
 
-    object-fit:cover;
+  object-fit: cover;
 
-    border:2px solid #ffffff;
-
+  border: 2px solid #ffffff;
 }
 
-.profile-info h4{
 
-    font-size:15px;
+/* Profile Text */
 
-    font-weight:700;
+.profile-info h4 {
+  margin: 0;
 
-    color:#ffffff;
+  font-size: 15px;
+  font-weight: 700;
 
-    margin:0;
-
+  color: #ffffff;
 }
 
-.profile-info p{
+.profile-info p {
+  margin: 3px 0 0;
 
-    font-size:13px;
+  font-size: 13px;
 
-    color:#dbeafe;
-
-    margin-top:3px;
-
+  color: #dbeafe;
 }
+
 
 /* ==========================================
    RESPONSIVE
 ========================================== */
 
-@media(max-width:768px){
+@media (max-width: 768px) {
 
-.topbar{
+  .topbar {
+    padding: 0 15px;
+  }
 
-    padding:0 15px;
+  .portal-title {
+    font-size: 22px;
+  }
 
-}
+  .profile-info {
+    display: none;
+  }
 
-.portal-title{
-
-    font-size:22px;
-
-}
-
-.profile-info{
-
-    display:none;
-
-}
-
-.user-section{
-
-    gap:12px;
-
-}
+  .user-section {
+    gap: 12px;
+  }
 
 }
