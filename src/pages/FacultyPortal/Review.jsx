@@ -1,68 +1,280 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 import "./Review.css";
 
 function Review() {
-  const proposals = [
-    {
-      id: 1,
-      student: "Rahul Patel",
-      project: "Student Project Tracking Tool",
-      technology: "React + Spring Boot",
-      date: "12 Aug 2026",
-      status: "Pending",
-      objective:
-        "Develop a web-based system to track student project progress, reviews, marks, and final reports.",
-      problem:
-        "Manual project tracking is difficult and lacks transparency between students and faculty.",
-    },
-    {
-      id: 2,
-      student: "Priya Shah",
-      project: "Hospital Management System",
-      technology: "MERN Stack",
-      date: "10 Aug 2026",
-      status: "Approved",
-      objective:
-        "Digitize hospital appointments and patient records.",
-      problem:
-        "Hospitals struggle with paper-based records and appointment scheduling.",
-    },
-    {
-      id: 3,
-      student: "Jay Mehta",
-      project: "AI Resume Analyzer",
-      technology: "Python + Flask",
-      date: "09 Aug 2026",
-      status: "Rejected",
-      objective:
-        "Analyze resumes using NLP techniques.",
-      problem:
-        "Recruiters spend too much time screening resumes manually.",
-    },
-  ];
+
+  // =====================================================
+  // STATES
+  // =====================================================
+
+  const [proposals, setProposals] = useState([]);
 
   const [selectedProposal, setSelectedProposal] = useState(null);
+
   const [search, setSearch] = useState("");
+
   const [filter, setFilter] = useState("All");
 
-  const filteredProposals = proposals.filter((proposal) => {
-    const matchSearch =
-      proposal.student.toLowerCase().includes(search.toLowerCase()) ||
-      proposal.project.toLowerCase().includes(search.toLowerCase());
+  const [loading, setLoading] = useState(true);
 
-    const matchFilter =
-      filter === "All" || proposal.status === filter;
+  const [error, setError] = useState("");
 
-    return matchSearch && matchFilter;
-  });
+
+  // =====================================================
+  // BACKEND API URL
+  // =====================================================
+
+  const API_URL = "http://localhost:8081/review-proposal";
+
+
+  // =====================================================
+  // GET ALL PROPOSALS
+  // =====================================================
+
+  useEffect(() => {
+
+    fetchProposals();
+
+  }, []);
+
+
+  const fetchProposals = async () => {
+
+    try {
+
+      setLoading(true);
+      setError("");
+
+      const response = await axios.get(API_URL);
+
+      console.log("Review proposals:", response.data);
+
+      setProposals(response.data);
+
+    } catch (error) {
+
+      console.error(
+        "Error fetching review proposals:",
+        error
+      );
+
+      setError(
+        "Unable to load proposals. Please make sure the backend is running."
+      );
+
+    } finally {
+
+      setLoading(false);
+
+    }
+  };
+
+
+  // =====================================================
+  // VIEW SINGLE PROPOSAL
+  // =====================================================
+
+  const handleViewProposal = async (reviewProposalId) => {
+
+    try {
+
+      const response = await axios.get(
+        `${API_URL}/${reviewProposalId}`
+      );
+
+      console.log(
+        "Selected proposal:",
+        response.data
+      );
+
+      setSelectedProposal(response.data);
+
+    } catch (error) {
+
+      console.error(
+        "Error fetching proposal:",
+        error
+      );
+
+      alert("Unable to load proposal.");
+
+    }
+  };
+
+
+  // =====================================================
+  // UPDATE PROPOSAL STATUS
+  // =====================================================
+
+  const handleStatusChange = async (
+    reviewProposalId,
+    status
+  ) => {
+
+    try {
+
+      const response = await axios.put(
+        `${API_URL}/${reviewProposalId}/status`,
+        {
+          status: status,
+        }
+      );
+
+      console.log(
+        "Updated proposal:",
+        response.data
+      );
+
+
+      // -----------------------------------------------
+      // Update proposal in the cards
+      // -----------------------------------------------
+
+      setProposals((previousProposals) =>
+        previousProposals.map((proposal) =>
+          proposal.reviewProposalId ===
+          response.data.reviewProposalId
+            ? response.data
+            : proposal
+        )
+      );
+
+
+      // -----------------------------------------------
+      // Update currently opened proposal
+      // -----------------------------------------------
+
+      setSelectedProposal(response.data);
+
+
+      alert(
+        `Proposal ${status
+          .toLowerCase()
+          .replace("_", " ")} successfully.`
+      );
+
+    } catch (error) {
+
+      console.error(
+        "Error updating proposal status:",
+        error
+      );
+
+      alert(
+        "Unable to update proposal status."
+      );
+    }
+  };
+
+
+  // =====================================================
+  // SEARCH + FILTER
+  // =====================================================
+
+  const filteredProposals = proposals.filter(
+    (proposal) => {
+
+      const searchText =
+        search.toLowerCase().trim();
+
+
+      const matchSearch =
+        proposal.projectTitle
+          ?.toLowerCase()
+          .includes(searchText) ||
+
+        String(proposal.studentId)
+          .includes(searchText);
+
+
+      const matchFilter =
+        filter === "All" ||
+        proposal.status === filter;
+
+
+      return matchSearch && matchFilter;
+    }
+  );
+
+
+  // =====================================================
+  // LOADING
+  // =====================================================
+
+  if (loading) {
+
+    return (
+
+      <div className="review-page">
+
+        <div className="review-header">
+
+          <h1>
+            Project Proposal Review
+          </h1>
+
+          <p>
+            Loading student proposals...
+          </p>
+
+        </div>
+
+      </div>
+
+    );
+  }
+
+
+  // =====================================================
+  // MAIN UI
+  // =====================================================
 
   return (
+
     <div className="review-page">
 
+
+      {/* =================================================
+          HEADER
+      ================================================== */}
+
       <div className="review-header">
-        <h1>Project Proposal Review</h1>
-        <p>Review, approve or reject student project proposals.</p>
+
+        <h1>
+          Project Proposal Review
+        </h1>
+
+        <p>
+          Review, approve or reject student project proposals.
+        </p>
+
       </div>
+
+
+      {/* =================================================
+          ERROR MESSAGE
+      ================================================== */}
+
+      {error && (
+
+        <div className="error-message">
+
+          <p>{error}</p>
+
+          <button onClick={fetchProposals}>
+            Retry
+          </button>
+
+        </div>
+
+      )}
+
+
+      {/* =================================================
+          SEARCH + FILTER
+      ================================================== */}
 
       <div className="review-toolbar">
 
@@ -70,55 +282,166 @@ function Review() {
           type="text"
           placeholder="Search Student / Project..."
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) =>
+            setSearch(e.target.value)
+          }
         />
+
 
         <select
           value={filter}
-          onChange={(e) => setFilter(e.target.value)}
+          onChange={(e) =>
+            setFilter(e.target.value)
+          }
         >
-          <option>All</option>
-          <option>Pending</option>
-          <option>Approved</option>
-          <option>Rejected</option>
+
+          <option value="All">
+            All
+          </option>
+
+          <option value="PENDING">
+            Pending
+          </option>
+
+          <option value="APPROVED">
+            Approved
+          </option>
+
+          <option value="REJECTED">
+            Rejected
+          </option>
+
+          <option value="CHANGES_REQUESTED">
+            Request Changes
+          </option>
+
         </select>
 
       </div>
 
+
+      {/* =================================================
+          PROPOSAL GRID
+      ================================================== */}
+
       <div className="proposal-grid">
 
-        {filteredProposals.map((proposal) => (
+        {filteredProposals.length === 0 ? (
 
-          <div className="proposal-card" key={proposal.id}>
+          <p>
+            No proposals found.
+          </p>
 
-            <div className="proposal-top">
+        ) : (
 
-              <h3>{proposal.project}</h3>
+          filteredProposals.map((proposal) => (
 
-              <span className={`status ${proposal.status.toLowerCase()}`}>
-                {proposal.status}
-              </span>
+            <div
+              className="proposal-card"
+              key={proposal.reviewProposalId}
+            >
+
+
+              {/* =========================================
+                  CARD TOP
+              ========================================== */}
+
+              <div className="proposal-top">
+
+                <h3>
+                  {proposal.projectTitle}
+                </h3>
+
+
+                <span
+                  className={`status ${proposal.status
+                    ?.toLowerCase()
+                    .replace("_", "-")}`}
+                >
+
+                  {proposal.status === "CHANGES_REQUESTED"
+                    ? "Request Changes"
+                    : proposal.status}
+
+                </span>
+
+              </div>
+
+
+              {/* =========================================
+                  STUDENT
+              ========================================== */}
+
+              <p>
+
+                <strong>
+                  Student :
+                </strong>{" "}
+
+                {proposal.studentId}
+
+              </p>
+
+
+              {/* =========================================
+                  DOMAIN
+              ========================================== */}
+
+              <p>
+
+                <strong>
+                  Domain :
+                </strong>{" "}
+
+                {proposal.projectDomain}
+
+              </p>
+
+
+              {/* =========================================
+                  TECHNOLOGY
+              ========================================== */}
+
+              <p>
+
+                <strong>
+                  Technology :
+                </strong>{" "}
+
+                {proposal.technologyStack}
+
+              </p>
+
+
+              {/* =========================================
+                  VIEW BUTTON
+              ========================================== */}
+
+              <button
+                className="view-btn"
+                onClick={() =>
+                  handleViewProposal(
+                    proposal.reviewProposalId
+                  )
+                }
+              >
+
+                View Proposal
+
+              </button>
 
             </div>
 
-            <p><strong>Student :</strong> {proposal.student}</p>
+          ))
 
-            <p><strong>Technology :</strong> {proposal.technology}</p>
-
-            <p><strong>Submitted :</strong> {proposal.date}</p>
-
-            <button
-              className="view-btn"
-              onClick={() => setSelectedProposal(proposal)}
-            >
-              View Proposal
-            </button>
-
-          </div>
-
-        ))}
+        )}
 
       </div>
+
+
+      {/* =================================================
+          PROPOSAL MODAL
+      ================================================== */}
 
       {selectedProposal && (
 
@@ -126,41 +449,276 @@ function Review() {
 
           <div className="proposal-modal">
 
-            <h2>{selectedProposal.project}</h2>
 
-            <p><strong>Student :</strong> {selectedProposal.student}</p>
+            {/* =========================================
+                TITLE
+            ========================================== */}
 
-            <p><strong>Technology :</strong> {selectedProposal.technology}</p>
+            <h2>
+              {selectedProposal.projectTitle}
+            </h2>
 
-            <p><strong>Objective :</strong></p>
 
-            <p>{selectedProposal.objective}</p>
+            {/* =========================================
+                STUDENT
+            ========================================== */}
 
-            <p><strong>Problem Statement :</strong></p>
+            <p>
 
-            <p>{selectedProposal.problem}</p>
+              <strong>
+                Student :
+              </strong>{" "}
+
+              {selectedProposal.studentId}
+
+            </p>
+
+
+            {/* =========================================
+                DOMAIN
+            ========================================== */}
+
+            <p>
+
+              <strong>
+                Domain :
+              </strong>{" "}
+
+              {selectedProposal.projectDomain}
+
+            </p>
+
+
+            {/* =========================================
+                TECHNOLOGY
+            ========================================== */}
+
+            <p>
+
+              <strong>
+                Technology :
+              </strong>{" "}
+
+              {selectedProposal.technologyStack}
+
+            </p>
+
+
+            {/* =========================================
+                OTHER TECHNOLOGY
+            ========================================== */}
+
+            {selectedProposal.otherTechnology && (
+
+              <p>
+
+                <strong>
+                  Other Technology :
+                </strong>{" "}
+
+                {selectedProposal.otherTechnology}
+
+              </p>
+
+            )}
+
+
+            {/* =========================================
+                MEMBER 2
+            ========================================== */}
+
+            {selectedProposal.member2Name && (
+
+              <p>
+
+                <strong>
+                  Member 2 :
+                </strong>{" "}
+
+                {selectedProposal.member2Name}
+
+                {selectedProposal.member2Enrollment &&
+                  ` (${selectedProposal.member2Enrollment})`
+                }
+
+              </p>
+
+            )}
+
+
+            {/* =========================================
+                MEMBER 3
+            ========================================== */}
+
+            {selectedProposal.member3Name && (
+
+              <p>
+
+                <strong>
+                  Member 3 :
+                </strong>{" "}
+
+                {selectedProposal.member3Name}
+
+                {selectedProposal.member3Enrollment &&
+                  ` (${selectedProposal.member3Enrollment})`
+                }
+
+              </p>
+
+            )}
+
+
+            {/* =========================================
+                PROJECT DESCRIPTION
+            ========================================== */}
+
+            <p>
+
+              <strong>
+                Project Description :
+              </strong>
+
+            </p>
+
+
+            <p>
+              {selectedProposal.projectDescription}
+            </p>
+
+
+            {/* =========================================
+                PROPOSAL FILE
+            ========================================== */}
+
+            <p>
+
+              <strong>
+                Proposal File :
+              </strong>{" "}
+
+              {selectedProposal.proposalFile}
+
+            </p>
+
+
+            {/* =========================================
+                CURRENT STATUS
+            ========================================== */}
+
+            <p>
+
+              <strong>
+                Current Status :
+              </strong>{" "}
+
+              <span
+                className={`status ${selectedProposal.status
+                  ?.toLowerCase()
+                  .replace("_", "-")}`}
+              >
+
+                {selectedProposal.status ===
+                "CHANGES_REQUESTED"
+                  ? "Request Changes"
+                  : selectedProposal.status}
+
+              </span>
+
+            </p>
+
+
+            {/* =================================================
+                ACTION BUTTONS
+            ================================================== */}
 
             <div className="modal-buttons">
 
-              <button className="approve">
+
+              {/* =============================================
+                  APPROVE
+              ============================================== */}
+
+              <button
+                className="approve"
+                onClick={() =>
+                  handleStatusChange(
+                    selectedProposal.reviewProposalId,
+                    "APPROVED"
+                  )
+                }
+                disabled={
+                  selectedProposal.status ===
+                  "APPROVED"
+                }
+              >
+
                 Approve
+
               </button>
 
-              <button className="reject">
+
+              {/* =============================================
+                  REJECT
+              ============================================== */}
+
+              <button
+                className="reject"
+                onClick={() =>
+                  handleStatusChange(
+                    selectedProposal.reviewProposalId,
+                    "REJECTED"
+                  )
+                }
+                disabled={
+                  selectedProposal.status ===
+                  "REJECTED"
+                }
+              >
+
                 Reject
+
               </button>
 
-              <button className="changes">
+
+              {/* =============================================
+                  REQUEST CHANGES
+              ============================================== */}
+
+              <button
+                className="changes"
+                onClick={() =>
+                  handleStatusChange(
+                    selectedProposal.reviewProposalId,
+                    "CHANGES_REQUESTED"
+                  )
+                }
+                disabled={
+                  selectedProposal.status ===
+                  "CHANGES_REQUESTED"
+                }
+              >
+
                 Request Changes
+
               </button>
 
             </div>
 
+
+            {/* =================================================
+                CLOSE
+            ================================================== */}
+
             <button
               className="close-btn"
-              onClick={() => setSelectedProposal(null)}
+              onClick={() =>
+                setSelectedProposal(null)
+              }
             >
+
               Close
+
             </button>
 
           </div>
@@ -170,6 +728,7 @@ function Review() {
       )}
 
     </div>
+
   );
 }
 
