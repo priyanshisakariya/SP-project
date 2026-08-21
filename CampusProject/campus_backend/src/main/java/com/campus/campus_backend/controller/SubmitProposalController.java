@@ -22,7 +22,7 @@ public class SubmitProposalController {
     @PostMapping("/submit")
     public ProposalResponseDTO submitProposal(
             @RequestBody ProposalRequestDTO requestDTO){
-
+        System.out.println("proposal submitted");
         return submitProposalService.submitProposal(requestDTO);
 
     }

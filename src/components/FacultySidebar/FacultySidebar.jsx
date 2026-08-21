@@ -60,10 +60,10 @@ function FacultySidebar({ sidebarOpen }) {
           <span>Weekly Review</span>
         </NavLink>
 
-        <NavLink to="/faculty-portal/comments">
+        {/* <NavLink to="/faculty-portal/comments">
           <FaComments />
           <span>Comments</span>
-        </NavLink>
+        </NavLink> */}
 
         <NavLink to="/faculty-portal/mark-management">
           <FaAward />

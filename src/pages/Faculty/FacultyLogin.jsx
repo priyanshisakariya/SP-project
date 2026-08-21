@@ -53,7 +53,7 @@ function FacultyLogin() {
           JSON.stringify(data)
         );
 
-        navigate("/faculty-dashboard");
+        navigate("/faculty-portal");
 
       } else {
 
