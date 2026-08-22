@@ -1,63 +1,30 @@
-package com.campus.campus_backend.entity;
+package com.campus.campus_backend.dto.studentmarks;
 
-import jakarta.persistence.*;
 import java.math.BigDecimal;
 
-@Entity
-@Table(name = "marks")
-public class Marks {
+public class StudentMarksResponseDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "marks_id")
     private Integer marksId;
-
-    @Column(name = "student_id", nullable = false)
     private Integer studentId;
 
-    @Column(name = "submission_id")
-    private Integer proposalId;
+    private Integer proposalMarks;
+    private Integer weeklyProgressMarks;
+    private Integer finalReportMarks;
+    private Integer presentationVivaMarks;
+    private Integer sourceCodeMarks;
 
-    @Column(name = "proposal_marks", nullable = false)
-    private Integer proposalMarks = 0;
+    private Integer totalMarks;
+    private BigDecimal percentage;
 
-    @Column(name = "weekly_progress_marks", nullable = false)
-    private Integer weeklyProgressMarks = 0;
-
-    @Column(name = "final_report_marks", nullable = false)
-    private Integer finalReportMarks = 0;
-
-    @Column(name = "presentation_viva_marks", nullable = false)
-    private Integer presentationVivaMarks = 0;
-
-    @Column(name = "source_code_marks", nullable = false)
-    private Integer sourceCodeMarks = 0;
-
-    @Column(name = "total_marks", nullable = false)
-    private Integer totalMarks = 0;
-
-    @Column(name = "percentage", nullable = false, precision = 5, scale = 2)
-    private BigDecimal percentage = BigDecimal.ZERO;
-
-    @Column(name = "grade", length = 5)
     private String grade;
-
-    @Column(name = "result", length = 10)
     private String result;
 
-    @Column(name = "strengths")
     private String strengths;
-
-    @Column(name = "areas_for_improvement")
     private String areasForImprovement;
-
-    @Column(name = "overall_comments")
     private String overallComments;
 
-
-    public Marks() {
+    public StudentMarksResponseDTO() {
     }
-
 
     public Integer getMarksId() {
         return marksId;
@@ -73,14 +40,6 @@ public class Marks {
 
     public void setStudentId(Integer studentId) {
         this.studentId = studentId;
-    }
-
-    public Integer getSubmissionId() {
-        return proposalId;
-    }
-
-    public void setSubmissionId(Integer proposalId) {
-        this.proposalId = proposalId;
     }
 
     public Integer getProposalMarks() {

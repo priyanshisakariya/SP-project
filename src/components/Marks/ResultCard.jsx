@@ -5,8 +5,10 @@ import {
   FaCheckCircle,
 } from "react-icons/fa";
 
-function ResultCard() {
+function ResultCard({ marks }) {
+
   return (
+
     <div className="marks-card">
 
       <h2 className="card-title">
@@ -16,45 +18,83 @@ function ResultCard() {
 
       <div className="result-grid">
 
+        {/* Total Marks */}
+
         <div className="result-item">
+
           <FaMedal className="result-icon" />
 
           <div>
             <h4>Total Marks</h4>
-            <p>91 / 100</p>
+
+            <p>
+              {marks?.totalMarks ?? 0} / 100
+            </p>
           </div>
+
         </div>
 
+
+        {/* Percentage */}
+
         <div className="result-item">
+
           <FaPercentage className="result-icon" />
 
           <div>
             <h4>Percentage</h4>
-            <p>91%</p>
+
+            <p>
+              {marks?.percentage ?? 0}%
+            </p>
           </div>
+
         </div>
 
+
+        {/* Grade */}
+
         <div className="result-item">
+
           <FaAward className="result-icon" />
 
           <div>
             <h4>Grade</h4>
-            <p>A+</p>
+
+            <p>
+              {marks?.grade ?? "-"}
+            </p>
           </div>
+
         </div>
 
+
+        {/* Result */}
+
         <div className="result-item">
+
           <FaCheckCircle className="result-icon success" />
 
           <div>
             <h4>Result</h4>
-            <p className="pass">PASS</p>
+
+            <p
+              className={
+                marks?.result === "PASS"
+                  ? "pass"
+                  : "fail"
+              }
+            >
+              {marks?.result ?? "-"}
+            </p>
           </div>
+
         </div>
 
       </div>
 
     </div>
+
   );
 }
 
