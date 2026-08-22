@@ -1,73 +1,79 @@
+import { useEffect, useState } from "react";
 import "./FacultyStudentAllocation.css";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
-function FacultyStudentAllocation() {
-  const studentData = [
-    {
-      groupNo: 1,
-      student1Enroll: "25CI2110086",
-      student1Name: "PRAJAPATI KOMAL MANSUKHBHAI",
-      student2Enroll: "25CI2110091",
-      student2Name: "RAJPUT GREESHMA JAGDISHBHAI",
-      student3Enroll: "25CI2110035",
-      student3Name: "JANI AESHA AVINASHBHAI",
-      facultyGuide: "Sonia Verma",
-    },
-    {
-      groupNo: 2,
-      student1Enroll: "25CI2110133",
-      student1Name: "YADAV NIKITA ARVINDKUMAR",
-      student2Enroll: "25CI2110106",
-      student2Name: "SHAIKH BUSHRA USMAN",
-      student3Enroll: "25CI2110132",
-      student3Name: "YADAV CHANDNI SHRAVANKUMAR",
-      facultyGuide: "Kunjan Jesingani",
-    },
-    {
-      groupNo: 3,
-      student1Enroll: "25CI2110126",
-      student1Name: "VAGHELA VRUND KANUBHAI",
-      student2Enroll: "25CI2110075",
-      student2Name: "PATEL HET KANUBHAI",
-      student3Enroll: "25CI2110051",
-      student3Name: "MANIYA HASTI ASHOKBHAI",
-      facultyGuide: "Unnati Parmar",
-    },
-    {
-      groupNo: 4,
-      student1Enroll: "25CI2110117",
-      student1Name: "TYAGI PRERNA RAVIKANT",
-      student2Enroll: "25CI2110135",
-      student2Name: "ZARANI BHUMI YOGESHBHAI",
-      student3Enroll: "25CI2110021",
-      student3Name: "DHOBI SONAL DINESHBHAI",
-      facultyGuide: "Aaska Bhatt",
-    },
-    {
-      groupNo: 5,
-      student1Enroll: "25CI2110104",
-      student1Name: "SHAH UDIT PREMALKUMAR",
-      student2Enroll: "25CI2110120",
-      student2Name: "VADERA TANVI HIMANSHUBHAI",
-      student3Enroll: "25CI2110089",
-      student3Name: "PRAJAPATI RAHUL DEVABHAI",
-      facultyGuide: "Dipti Bhatt",
-    },
-    {
-      groupNo: 6,
-      student1Enroll: "25CI2110039",
-      student1Name: "KALARIYA HELI RATILAL",
-      student2Enroll: "25CI2110029",
-      student2Name: "GOSWAMI URVASHI PRADIPGIRI",
-      student3Enroll: "25CI2110055",
-      student3Name: "MEVCHA HIYA RAMESHBHAI",
-      facultyGuide: "Tinal Parikh",
-    },
-  ];
+const API_URL = "http://localhost:8080/api/faculty-student-reports";
 
-  // Download PDF
+function FacultyStudentAllocation() {
+
+  const [studentData, setStudentData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  // =====================================================
+  // FETCH REPORT DATA FROM BACKEND
+  // =====================================================
+
+  const fetchStudentAllocation = async () => {
+    try {
+
+      setLoading(true);
+      setError("");
+
+      const response = await fetch(API_URL);
+
+      if (!response.ok) {
+        throw new Error(
+          `Failed to load report: ${response.status}`
+        );
+      }
+
+      const data = await response.json();
+
+      if (!Array.isArray(data)) {
+        throw new Error("Invalid report response");
+      }
+
+      setStudentData(data);
+
+    } catch (error) {
+
+      console.error(
+        "FACULTY STUDENT REPORT ERROR:",
+        error
+      );
+
+      setError(
+        "Unable to load faculty student allocation report."
+      );
+
+    } finally {
+
+      setLoading(false);
+
+    }
+  };
+
+  // =====================================================
+  // LOAD DATA WHEN PAGE OPENS
+  // =====================================================
+
+  useEffect(() => {
+    fetchStudentAllocation();
+  }, []);
+
+  // =====================================================
+  // DOWNLOAD PDF
+  // =====================================================
+
   const downloadPDF = () => {
+
+    if (studentData.length === 0) {
+      alert("No data available to generate PDF.");
+      return;
+    }
+
     // Landscape A4 because the table has many columns
     const doc = new jsPDF({
       orientation: "landscape",
@@ -75,7 +81,10 @@ function FacultyStudentAllocation() {
       format: "a4",
     });
 
-    // PDF title
+    // =====================================================
+    // PDF TITLE
+    // =====================================================
+
     doc.setFontSize(18);
     doc.setFont("helvetica", "bold");
     doc.setTextColor(75, 46, 131);
@@ -84,10 +93,15 @@ function FacultyStudentAllocation() {
       "Faculty Student Allocation",
       148.5,
       15,
-      { align: "center" }
+      {
+        align: "center",
+      }
     );
 
-    // Small subtitle
+    // =====================================================
+    // PDF SUBTITLE
+    // =====================================================
+
     doc.setFontSize(9);
     doc.setFont("helvetica", "normal");
     doc.setTextColor(80, 80, 80);
@@ -96,10 +110,15 @@ function FacultyStudentAllocation() {
       "Faculty and Student Group Allocation",
       148.5,
       22,
-      { align: "center" }
+      {
+        align: "center",
+      }
     );
 
-    // Table headers
+    // =====================================================
+    // TABLE HEADERS
+    // =====================================================
+
     const tableHeaders = [
       [
         "Group No",
@@ -113,21 +132,38 @@ function FacultyStudentAllocation() {
       ],
     ];
 
-    // Table rows
+    // =====================================================
+    // TABLE ROWS
+    // =====================================================
+
     const tableRows = studentData.map((student) => [
+
       student.groupNo,
-      student.student1Enroll,
+
+      student.student1EnrollmentNo,
+
       student.student1Name,
-      student.student2Enroll,
+
+      student.student2EnrollmentNo,
+
       student.student2Name,
-      student.student3Enroll,
+
+      student.student3EnrollmentNo,
+
       student.student3Name,
+
       student.facultyGuide,
+
     ]);
 
-    // Generate PDF table
+    // =====================================================
+    // GENERATE PDF TABLE
+    // =====================================================
+
     autoTable(doc, {
+
       head: tableHeaders,
+
       body: tableRows,
 
       startY: 28,
@@ -164,76 +200,119 @@ function FacultyStudentAllocation() {
       },
 
       columnStyles: {
+
         0: {
           cellWidth: 15,
         },
+
         1: {
           cellWidth: 28,
         },
+
         2: {
           cellWidth: 43,
         },
+
         3: {
           cellWidth: 28,
         },
+
         4: {
           cellWidth: 43,
         },
+
         5: {
           cellWidth: 28,
         },
+
         6: {
           cellWidth: 43,
         },
+
         7: {
           cellWidth: 25,
         },
+
       },
 
+      // Make student names bold
       didParseCell: function (data) {
-        // Make student names bold
+
         if (
           data.section === "body" &&
-          (data.column.index === 2 ||
+          (
+            data.column.index === 2 ||
             data.column.index === 4 ||
-            data.column.index === 6)
+            data.column.index === 6
+          )
         ) {
+
           data.cell.styles.fontStyle = "bold";
+
         }
+
       },
 
       margin: {
         left: 8,
         right: 8,
       },
+
     });
 
-    // Footer
-    const pageCount = doc.internal.getNumberOfPages();
+    // =====================================================
+    // FOOTER
+    // =====================================================
+
+    const pageCount =
+      doc.internal.getNumberOfPages();
 
     for (let i = 1; i <= pageCount; i++) {
+
       doc.setPage(i);
 
       doc.setFontSize(8);
-      doc.setFont("helvetica", "normal");
-      doc.setTextColor(100, 100, 100);
+      doc.setFont(
+        "helvetica",
+        "normal"
+      );
+
+      doc.setTextColor(
+        100,
+        100,
+        100
+      );
 
       doc.text(
         `Faculty Student Allocation | Page ${i} of ${pageCount}`,
         148.5,
         202,
-        { align: "center" }
+        {
+          align: "center",
+        }
       );
+
     }
 
-    // Download
-    doc.save("Faculty_Student_Allocation.pdf");
+    // =====================================================
+    // DOWNLOAD PDF
+    // =====================================================
+
+    doc.save(
+      "Faculty_Student_Allocation.pdf"
+    );
   };
 
+  // =====================================================
+  // UI
+  // =====================================================
+
   return (
+
     <div className="faculty-allocation-container">
 
-      {/* Header Section */}
+      {/* HEADER */}
+
       <div className="allocation-header">
 
         <h1 className="table-title">
@@ -243,101 +322,166 @@ function FacultyStudentAllocation() {
         <button
           className="download-pdf-btn"
           onClick={downloadPDF}
+          disabled={
+            loading ||
+            studentData.length === 0
+          }
         >
-          <span className="download-icon">↓</span>
+          <span className="download-icon">
+            ↓
+          </span>
+
           Download PDF
+
         </button>
 
       </div>
 
-      {/* Table */}
-      <div className="table-responsive">
-        <table className="allocation-table">
+      {/* ERROR */}
 
-          <thead>
-            <tr>
-              <th>Group No</th>
+      {error && (
 
-              <th>
-                1st Student
-                <br />
-                Enrollment No
-              </th>
+        <div className="error-message">
+          {error}
+        </div>
 
-              <th>
-                1st Student Name
-              </th>
+      )}
 
-              <th>
-                2nd Student
-                <br />
-                Enrollment No
-              </th>
+      {/* LOADING */}
 
-              <th>
-                2nd Student Name
-              </th>
+      {loading ? (
 
-              <th>
-                3rd Student
-                <br />
-                Enrollment No
-              </th>
+        <div className="loading-message">
+          Loading faculty student allocation...
+        </div>
 
-              <th>
-                3rd Student Name
-              </th>
+      ) : (
 
-              <th>
-                Faculty Guide
-              </th>
-            </tr>
-          </thead>
+        /* TABLE */
 
-          <tbody>
-            {studentData.map((student) => (
-              <tr key={student.groupNo}>
+        <div className="table-responsive">
 
-                <td>
-                  {student.groupNo}
-                </td>
+          <table className="allocation-table">
 
-                <td>
-                  {student.student1Enroll}
-                </td>
+            <thead>
 
-                <td>
-                  {student.student1Name}
-                </td>
+              <tr>
 
-                <td>
-                  {student.student2Enroll}
-                </td>
+                <th>
+                  Group No
+                </th>
 
-                <td>
-                  {student.student2Name}
-                </td>
+                <th>
+                  1st Student
+                  <br />
+                  Enrollment No
+                </th>
 
-                <td>
-                  {student.student3Enroll}
-                </td>
+                <th>
+                  1st Student Name
+                </th>
 
-                <td>
-                  {student.student3Name}
-                </td>
+                <th>
+                  2nd Student
+                  <br />
+                  Enrollment No
+                </th>
 
-                <td>
-                  {student.facultyGuide}
-                </td>
+                <th>
+                  2nd Student Name
+                </th>
+
+                <th>
+                  3rd Student
+                  <br />
+                  Enrollment No
+                </th>
+
+                <th>
+                  3rd Student Name
+                </th>
+
+                <th>
+                  Faculty Guide
+                </th>
 
               </tr>
-            ))}
-          </tbody>
 
-        </table>
-      </div>
+            </thead>
+
+            <tbody>
+
+              {studentData.length === 0 ? (
+
+                <tr>
+
+                  <td
+                    colSpan="8"
+                    style={{
+                      textAlign: "center",
+                    }}
+                  >
+                    No faculty student allocation
+                    records found.
+
+                  </td>
+
+                </tr>
+
+              ) : (
+
+                studentData.map((student) => (
+
+                  <tr key={student.id}>
+
+                    <td>
+                      {student.groupNo}
+                    </td>
+
+                    <td>
+                      {student.student1EnrollmentNo}
+                    </td>
+
+                    <td>
+                      {student.student1Name}
+                    </td>
+
+                    <td>
+                      {student.student2EnrollmentNo}
+                    </td>
+
+                    <td>
+                      {student.student2Name}
+                    </td>
+
+                    <td>
+                      {student.student3EnrollmentNo}
+                    </td>
+
+                    <td>
+                      {student.student3Name}
+                    </td>
+
+                    <td>
+                      {student.facultyGuide}
+                    </td>
+
+                  </tr>
+
+                ))
+
+              )}
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      )}
 
     </div>
+
   );
 }
 
