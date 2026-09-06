@@ -1,8 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import axios from "axios";
 import Home from "./pages/Home/Home";
 import About from "./pages/About/About";
 import Services from "./pages/Services/Services";
+import FacultyCommentSection from "./pages/FacultyPortal/FacultyCommentSection";
 
 // ================= STUDENT =================
 import StudentRegister from "./pages/Student/StudentRegister";
@@ -33,7 +34,7 @@ import FacultyRegister from "./pages/Faculty/FacultyRegister";
 import FacultyPortal from "./pages/FacultyPortal/FacultyPortal";
 import FacultyDashboard from "./pages/FacultyPortal/FacultyDashboard";
 import AssignedStudentToFaculty from "./pages/FacultyPortal/AssignedStudentToFaculty";
-import FacultyCommentSection from "./pages/FacultyPortal/FacultyCommentSection";
+// import FacultyCommentSection from "./pages/FacultyPortal/FacultyCommentSection";
 import FacultyNotifications from "./pages/FacultyPortal/FacultyNotifications";
 import GenerateMarksheet from "./pages/FacultyPortal/GenerateMarksheet";
 import MarkManagement from "./pages/FacultyPortal/MarkManagement";
@@ -66,6 +67,10 @@ function App() {
           element={<Services />}
         />
 
+          <Route
+  path="/faculty/comments"
+  element={<FacultyCommentSection />}
+/>
 
         {/* =====================================================
             STUDENT AUTHENTICATION
@@ -217,9 +222,16 @@ function App() {
           element={<FacultyPortal />}
         >
 
+
           {/* Faculty Dashboard */}
           <Route
+
             path="faculty-dashboard"
+            element={<FacultyDashboard />}
+          /> *
+
+          <Route
+            index
             element={<FacultyDashboard />}
           />
 
@@ -229,7 +241,9 @@ function App() {
             element={<AssignedStudentToFaculty />}
           />
 
+          {/* Faculty Comments */}  
           {/* Faculty Comments */}
+
           <Route
             path="comments"
             element={<FacultyCommentSection />}

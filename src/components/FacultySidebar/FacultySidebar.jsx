@@ -34,7 +34,7 @@ function FacultySidebar({ sidebarOpen }) {
       {/* Menu */}
       <nav className="sidebar-menu">
 
-        <NavLink to="/faculty-portal/faculty-dashboard">
+        <NavLink to="/faculty-portal">
           <FaHome />
           <span>Dashboard</span>
         </NavLink>
@@ -54,10 +54,10 @@ function FacultySidebar({ sidebarOpen }) {
           <span>Weekly Review</span>
         </NavLink>
 
-        <NavLink to="/faculty-portal/comments">
+        {/* <NavLink to="/faculty-portal/comments">
           <FaComments />
           <span>Comments</span>
-        </NavLink>
+        </NavLink> */}
 
         <NavLink to="/faculty-portal/mark-management">
           <FaAward />

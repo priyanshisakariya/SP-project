@@ -10,6 +10,8 @@ import com.campus.campus_backend.repository.WeeklyProgressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class WeeklyProgressService {
 
@@ -19,6 +21,10 @@ public class WeeklyProgressService {
     @Autowired
     private StudentRepository studentRepository;
 
+
+    // =====================================================
+    // STUDENT - SUBMIT WEEKLY PROGRESS
+    // =====================================================
 
     public WeeklyProgressResponseDTO submitProgress(
             WeeklyProgressRequestDTO requestDTO) {
@@ -137,42 +143,130 @@ public class WeeklyProgressService {
                 weeklyProgressRepository.save(progress);
 
 
-        // 10. Response
+        // 10. Return response
+        return convertToResponse(saved);
+    }
+
+
+    // =====================================================
+    // FACULTY - GET ALL WEEKLY PROGRESS
+    // =====================================================
+
+    public List<WeeklyProgressResponseDTO> getAllProgress() {
+
+        return weeklyProgressRepository.findAll()
+                .stream()
+                .map(this::convertToResponse)
+                .toList();
+    }
+
+
+    // =====================================================
+    // FACULTY - UPDATE WEEKLY PROGRESS STATUS
+    // =====================================================
+
+    public WeeklyProgressResponseDTO updateStatus(
+            Integer progressId,
+            String status) {
+
+        // Find weekly progress
+        WeeklyProgress progress =
+                weeklyProgressRepository.findById(progressId)
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Weekly progress not found with id: "
+                                                + progressId));
+
+
+        // Validate status
+        if (status == null ||
+                status.trim().isEmpty()) {
+
+            throw new RuntimeException(
+                    "Status is required.");
+        }
+
+
+        // Allowed statuses
+        String updatedStatus = status.trim();
+
+        if (!updatedStatus.equals("Submitted")
+                && !updatedStatus.equals("Approved")
+                && !updatedStatus.equals("Needs Improvement")) {
+
+            throw new RuntimeException(
+                    "Invalid status. Allowed values: "
+                            + "Submitted, Approved, Needs Improvement.");
+        }
+
+
+        // Update status
+        progress.setStatus(updatedStatus);
+
+
+        // Save updated progress
+        WeeklyProgress updated =
+                weeklyProgressRepository.save(progress);
+
+
+        // Return updated data
+        return convertToResponse(updated);
+    }
+
+
+    // =====================================================
+    // CONVERT ENTITY TO RESPONSE DTO
+    // =====================================================
+
+    private WeeklyProgressResponseDTO convertToResponse(
+            WeeklyProgress progress) {
+
         WeeklyProgressResponseDTO response =
                 new WeeklyProgressResponseDTO();
 
+
         response.setProgressId(
-                saved.getProgressId());
+                progress.getProgressId());
+
 
         response.setStudentId(
-                saved.getStudent().getId());
+                progress.getStudent().getId());
+
 
         response.setWeek(
-                saved.getWeek());
+                progress.getWeek());
+
 
         response.setProjectTitle(
-                saved.getProjectTitle());
+                progress.getProjectTitle());
+
 
         response.setProgressTitle(
-                saved.getProgressTitle());
+                progress.getProgressTitle());
+
 
         response.setWorkCompleted(
-                saved.getWorkCompleted());
+                progress.getWorkCompleted());
+
 
         response.setStatus(
-                saved.getStatus());
+                progress.getStatus());
+
 
         response.setPercentage(
-                saved.getPercentage());
+                progress.getPercentage());
+
 
         response.setChallenges(
-                saved.getChallenges());
+                progress.getChallenges());
+
 
         response.setNextPlan(
-                saved.getNextPlan());
+                progress.getNextPlan());
+
 
         response.setFileName(
-                saved.getFileName());
+                progress.getFileName());
 
 
         return response;

@@ -7,13 +7,13 @@ function FacultyRegister() {
 
   const [faculty, setFaculty] = useState({
     facultyName: "",
-    phoneNo: "",
+    phoneNumber: "",
     department: "",
     designation: "",
     //password:"",
   });
 
-  const handleChange = (e) => {
+   const handleChange = (e) => {
     setFaculty({
       ...faculty,
       [e.target.name]: e.target.value,
@@ -21,44 +21,55 @@ function FacultyRegister() {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
 
-  console.log(faculty);
+    e.preventDefault();
 
-  try {
-    const response = await fetch(
-      "http://localhost:8081/faculty/registration/register",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(faculty),
+    console.log("Sending faculty data:", faculty);
+
+    try {
+
+      const response = await fetch(
+        "http://localhost:8081/api/faculty/register",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify(faculty),
+        }
+      );
+
+      if (response.ok) {
+
+        const data = await response.json();
+
+        console.log("Registration successful:", data);
+
+        alert("Registration Successful!");
+
+        navigate("/faculty-login");
+
+      } else {
+
+        const errorMessage = await response.text();
+
+        console.error("Registration failed:", errorMessage);
+
+        alert(errorMessage);
       }
-    );
 
-     if (response.ok) {
-      const data = await response.json();
+    } catch (error) {
 
-      console.log(data);
+      console.error("Server Error:", error);
 
-      alert("Registration Successful!");
-
-      navigate("/faculty-login");
-
-    } else {
-
-      const errorMessage = await response.text();
-
-      alert(errorMessage);
-
+      alert("Unable to connect to server!");
     }
+  };
 
-  } catch (error) {
-    console.error(error);
-    alert("Server Error!");
-  }
-};
+        
+
 
   return (
     <div className="register-container">
@@ -79,9 +90,9 @@ function FacultyRegister() {
         <label>Phone Number</label>
         <input
           type="text"
-          name="phoneNo"
+          name="phoneNumber"
           placeholder="Enter Phone Number"
-          value={faculty.phoneNo}
+          value={faculty.phoneNumber}
           onChange={handleChange}
           required
         />

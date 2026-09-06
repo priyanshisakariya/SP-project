@@ -8,5 +8,7 @@ import java.util.Optional;
 public interface WeeklyReviewRepository
         extends JpaRepository<WeeklyReview, Integer> {
 
-    Optional<WeeklyReview> findByProgressId(Integer progressId);
+    Optional<WeeklyReview> findByProgressId(
+            Integer progressId
+    );
 }

@@ -1,149 +1,314 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./FacultyNotifications.css";
 
 function FacultyNotifications() {
+  const [notifications, setNotifications] = useState([]);
 
-  const [notifications, setNotifications] = useState([
-    {
-      id: 1,
-      title: "Project Proposal Deadline",
-      message: "Please review all pending project proposals before 20 August.",
-      date: "18 Aug 2026",
-      read: false,
-    },
-    {
-      id: 2,
-      title: "Weekly Review Reminder",
-      message: "Students have submitted their Week 5 progress reports.",
-      date: "17 Aug 2026",
-      read: false,
-    },
-    {
-      id: 3,
-      title: "Internal Evaluation",
-      message: "Internal evaluation marks must be submitted before 30 August.",
-      date: "15 Aug 2026",
-      read: true,
-    },
-    {
-      id: 4,
-      title: "Faculty Meeting",
-      message: "Faculty meeting scheduled on Friday at 11:00 AM.",
-      date: "14 Aug 2026",
-      read: true,
-    },
-  ]);
+  const [title, setTitle] = useState("");
+  const [message, setMessage] = useState("");
 
-  const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState("All");
+  const [loading, setLoading] = useState(true);
+  const [sending, setSending] = useState(false);
 
-  const markAsRead = (id) => {
-    setNotifications(
-      notifications.map((item) =>
-        item.id === id ? { ...item, read: true } : item
-      )
-    );
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  // ==========================================
+  // FETCH SENT NOTIFICATIONS
+  // ==========================================
+
+  const fetchNotifications = () => {
+    setLoading(true);
+    setError("");
+
+    fetch("http://localhost:8081/api/notifications")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch notifications");
+        }
+
+        return response.json();
+      })
+      .then((data) => {
+        setNotifications(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching notifications:", error);
+
+        setError("Unable to load notifications.");
+        setLoading(false);
+      });
   };
 
-  const filteredNotifications = notifications.filter((item) => {
+  // Fetch notifications when page loads
+  useEffect(() => {
+    fetchNotifications();
+  }, []);
 
-    const matchesSearch =
-      item.title.toLowerCase().includes(search.toLowerCase()) ||
-      item.message.toLowerCase().includes(search.toLowerCase());
 
-    const matchesFilter =
-      filter === "All" ||
-      (filter === "Unread" && !item.read) ||
-      (filter === "Read" && item.read);
+  // ==========================================
+  // SEND / CREATE NOTIFICATION
+  // ==========================================
 
-    return matchesSearch && matchesFilter;
-  });
+  const handleSendNotification = async (e) => {
+    e.preventDefault();
 
-  const unreadCount = notifications.filter((n) => !n.read).length;
+    setError("");
+    setSuccess("");
+
+    // Validate title
+    if (!title.trim()) {
+      setError("Please enter notification title.");
+      return;
+    }
+
+    // Validate message
+    if (!message.trim()) {
+      setError("Please enter notification message.");
+      return;
+    }
+
+    setSending(true);
+
+    try {
+      const response = await fetch(
+        "http://localhost:8081/api/notifications",
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify({
+            title: title.trim(),
+            message: message.trim(),
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to send notification");
+      }
+
+      const newNotification = await response.json();
+
+      // Add newly created notification
+      // to the beginning of the list
+      setNotifications((previousNotifications) => [
+        newNotification,
+        ...previousNotifications,
+      ]);
+
+      // Clear form
+      setTitle("");
+      setMessage("");
+
+      setSuccess("Notification sent successfully!");
+
+    } catch (error) {
+      console.error(
+        "Error sending notification:",
+        error
+      );
+
+      setError(
+        "Unable to send notification. Please try again."
+      );
+    } finally {
+      setSending(false);
+    }
+  };
+
+
+  // ==========================================
+  // JSX
+  // ==========================================
 
   return (
     <div className="notification-page">
 
+      {/* ======================================
+          HEADER
+      ====================================== */}
+
       <div className="notification-header">
+
         <h1>Notifications</h1>
-        <p>View important announcements and reminders.</p>
-      </div>
 
-      <div className="summary-cards">
-
-        <div className="summary-card">
-          <h3>Total</h3>
-          <span>{notifications.length}</span>
-        </div>
-
-        <div className="summary-card unread">
-          <h3>Unread</h3>
-          <span>{unreadCount}</span>
-        </div>
+        <p>
+          Send important announcements and
+          schedule-related information to students.
+        </p>
 
       </div>
 
-      <div className="notification-toolbar">
 
-        <input
-          type="text"
-          placeholder="Search notifications..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+      {/* ======================================
+          CREATE / SEND NOTIFICATION
+      ====================================== */}
 
-        <select
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-        >
-          <option>All</option>
-          <option>Unread</option>
-          <option>Read</option>
-        </select>
+      <div className="create-notification-card">
 
-      </div>
+        <h2>Send Notification</h2>
 
-      <div className="notification-list">
+        <p>
+          Share important information such as
+          viva dates, submission deadlines,
+          schedule changes, and other announcements.
+        </p>
 
-        {filteredNotifications.map((item) => (
 
-          <div
-            key={item.id}
-            className={`notification-card ${item.read ? "" : "new-notification"}`}
-          >
+        {/* Success Message */}
 
-            <div className="notification-top">
+        {success && (
+          <div className="notification-success">
+            {success}
+          </div>
+        )}
 
-              <div>
 
-                <h3>{item.title}</h3>
+        {/* Error Message */}
 
-                <small>{item.date}</small>
+        {error && (
+          <div className="notification-error">
+            {error}
+          </div>
+        )}
 
-              </div>
 
-              {!item.read && (
-                <span className="badge">
-                  New
-                </span>
-              )}
+        <form onSubmit={handleSendNotification}>
 
-            </div>
+          {/* Title */}
 
-            <p>{item.message}</p>
+          <div className="form-group">
 
-            {!item.read && (
-              <button
-                className="read-btn"
-                onClick={() => markAsRead(item.id)}
-              >
-                Mark as Read
-              </button>
-            )}
+            <label htmlFor="notification-title">
+              Notification Title
+            </label>
+
+            <input
+              id="notification-title"
+              type="text"
+              placeholder="e.g. Viva Date Changed"
+              value={title}
+              onChange={(e) =>
+                setTitle(e.target.value)
+              }
+            />
 
           </div>
 
-        ))}
+
+          {/* Message */}
+
+          <div className="form-group">
+
+            <label htmlFor="notification-message">
+              Message
+            </label>
+
+            <textarea
+              id="notification-message"
+              placeholder="Enter the information you want to send to students..."
+              value={message}
+              onChange={(e) =>
+                setMessage(e.target.value)
+              }
+              rows="4"
+            />
+
+          </div>
+
+
+          {/* Send Button */}
+
+          <button
+            type="submit"
+            className="send-notification-btn"
+            disabled={sending}
+          >
+            {sending
+              ? "Sending..."
+              : "Send Notification"}
+          </button>
+
+        </form>
+
+      </div>
+
+
+      {/* ======================================
+          SENT NOTIFICATIONS
+      ====================================== */}
+
+      <div className="sent-notifications-section">
+
+        <div className="section-header">
+
+          <h2>Sent Notifications</h2>
+
+          <p>
+            Notifications you have sent to students.
+          </p>
+
+        </div>
+
+
+        {/* Loading */}
+
+        {loading && (
+          <p className="notification-message">
+            Loading notifications...
+          </p>
+        )}
+
+
+        {/* No Notifications */}
+
+        {!loading &&
+          notifications.length === 0 && (
+            <p className="notification-message">
+              No notifications sent yet.
+            </p>
+          )}
+
+
+        {/* Notification Cards */}
+
+        {!loading &&
+          notifications.map((item) => (
+
+            <div
+              key={item.id}
+              className="notification-card"
+            >
+
+              <div className="notification-top">
+
+                <div>
+
+                  <h3>
+                    {item.title}
+                  </h3>
+
+                  <small>
+                    {item.date}
+                  </small>
+
+                </div>
+
+              </div>
+
+
+              <p>
+                {item.message}
+              </p>
+
+            </div>
+
+          ))}
 
       </div>
 

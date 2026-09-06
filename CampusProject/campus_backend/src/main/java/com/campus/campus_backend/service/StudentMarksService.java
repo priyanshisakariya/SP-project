@@ -17,9 +17,7 @@ public class StudentMarksService {
     public StudentMarksResponseDTO getStudentMarks(Integer studentId) {
 
         Marks marks = marksRepository
-                .findByStudentId(studentId)
-                .stream()
-                .findFirst()
+                .findMarksByStudentId(studentId)
                 .orElseThrow(() ->
                         new RuntimeException(
                                 "Marks not found for student id: " + studentId
@@ -34,8 +32,15 @@ public class StudentMarksService {
         StudentMarksResponseDTO response =
                 new StudentMarksResponseDTO();
 
-        response.setMarksId(marks.getMarksId());
-        response.setStudentId(marks.getStudentId());
+        response.setMarksId(
+                marks.getMarksId()
+        );
+
+        if (marks.getStudent() != null) {
+            response.setStudentId(
+                    marks.getStudent().getId()
+            );
+        }
 
         response.setProposalMarks(
                 marks.getProposalMarks()

@@ -1,6 +1,7 @@
 package com.campus.campus_backend.entity;
 
 import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 
 @Entity
@@ -12,10 +13,11 @@ public class Marks {
     @Column(name = "marks_id")
     private Integer marksId;
 
-    @Column(name = "student_id", nullable = false)
-    private Integer studentId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id", nullable = false)
+    private Student student;
 
-    @Column(name = "submission_id")
+    @Column(name = "proposal_id")
     private Integer proposalId;
 
     @Column(name = "proposal_marks", nullable = false)
@@ -45,13 +47,13 @@ public class Marks {
     @Column(name = "result", length = 10)
     private String result;
 
-    @Column(name = "strengths")
+    @Column(name = "strengths", columnDefinition = "TEXT")
     private String strengths;
 
-    @Column(name = "areas_for_improvement")
+    @Column(name = "areas_for_improvement", columnDefinition = "TEXT")
     private String areasForImprovement;
 
-    @Column(name = "overall_comments")
+    @Column(name = "overall_comments", columnDefinition = "TEXT")
     private String overallComments;
 
 
@@ -67,21 +69,24 @@ public class Marks {
         this.marksId = marksId;
     }
 
-    public Integer getStudentId() {
-        return studentId;
+
+    public Student getStudent() {
+        return student;
     }
 
-    public void setStudentId(Integer studentId) {
-        this.studentId = studentId;
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
-    public Integer getSubmissionId() {
+
+    public Integer getProposalId() {
         return proposalId;
     }
 
-    public void setSubmissionId(Integer proposalId) {
+    public void setProposalId(Integer proposalId) {
         this.proposalId = proposalId;
     }
+
 
     public Integer getProposalMarks() {
         return proposalMarks;
@@ -91,6 +96,7 @@ public class Marks {
         this.proposalMarks = proposalMarks;
     }
 
+
     public Integer getWeeklyProgressMarks() {
         return weeklyProgressMarks;
     }
@@ -98,6 +104,7 @@ public class Marks {
     public void setWeeklyProgressMarks(Integer weeklyProgressMarks) {
         this.weeklyProgressMarks = weeklyProgressMarks;
     }
+
 
     public Integer getFinalReportMarks() {
         return finalReportMarks;
@@ -107,6 +114,7 @@ public class Marks {
         this.finalReportMarks = finalReportMarks;
     }
 
+
     public Integer getPresentationVivaMarks() {
         return presentationVivaMarks;
     }
@@ -114,6 +122,7 @@ public class Marks {
     public void setPresentationVivaMarks(Integer presentationVivaMarks) {
         this.presentationVivaMarks = presentationVivaMarks;
     }
+
 
     public Integer getSourceCodeMarks() {
         return sourceCodeMarks;
@@ -123,6 +132,7 @@ public class Marks {
         this.sourceCodeMarks = sourceCodeMarks;
     }
 
+
     public Integer getTotalMarks() {
         return totalMarks;
     }
@@ -130,6 +140,7 @@ public class Marks {
     public void setTotalMarks(Integer totalMarks) {
         this.totalMarks = totalMarks;
     }
+
 
     public BigDecimal getPercentage() {
         return percentage;
@@ -139,6 +150,7 @@ public class Marks {
         this.percentage = percentage;
     }
 
+
     public String getGrade() {
         return grade;
     }
@@ -146,6 +158,7 @@ public class Marks {
     public void setGrade(String grade) {
         this.grade = grade;
     }
+
 
     public String getResult() {
         return result;
@@ -155,6 +168,7 @@ public class Marks {
         this.result = result;
     }
 
+
     public String getStrengths() {
         return strengths;
     }
@@ -162,6 +176,7 @@ public class Marks {
     public void setStrengths(String strengths) {
         this.strengths = strengths;
     }
+
 
     public String getAreasForImprovement() {
         return areasForImprovement;
@@ -171,6 +186,7 @@ public class Marks {
         this.areasForImprovement = areasForImprovement;
     }
 
+
     public String getOverallComments() {
         return overallComments;
     }
@@ -178,4 +194,6 @@ public class Marks {
     public void setOverallComments(String overallComments) {
         this.overallComments = overallComments;
     }
+
+
 }

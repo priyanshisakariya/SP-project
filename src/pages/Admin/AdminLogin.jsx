@@ -37,10 +37,10 @@ const AdminLogin = () => {
 
   return (
     <div
-      className="login-container"
+      className="admin-login-container"
       style={{ backgroundImage: `url(${bg})` }}
     >
-      <div className="login-card">
+      <div className="admin-login-card">
         <h2>Admin Login</h2>
         <p className="subtitle">
           Sign in to access the admin dashboard

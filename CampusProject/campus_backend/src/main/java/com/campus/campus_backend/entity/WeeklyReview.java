@@ -11,10 +11,10 @@ public class WeeklyReview {
     @Column(name = "weekly_review_id")
     private Integer weeklyReviewId;
 
-    @Column(name = "progress_id", nullable = false)
+    @Column(name = "progress_id", nullable = false, unique = true)
     private Integer progressId;
 
-    @Column(name = "faculty_feedback")
+    @Column(name = "faculty_feedback", columnDefinition = "TEXT")
     private String facultyFeedback;
 
 
@@ -30,6 +30,7 @@ public class WeeklyReview {
         this.weeklyReviewId = weeklyReviewId;
     }
 
+
     public Integer getProgressId() {
         return progressId;
     }
@@ -37,6 +38,7 @@ public class WeeklyReview {
     public void setProgressId(Integer progressId) {
         this.progressId = progressId;
     }
+
 
     public String getFacultyFeedback() {
         return facultyFeedback;

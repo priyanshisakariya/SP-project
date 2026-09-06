@@ -175,3 +175,26 @@
   margin: 8px 0 0 0;
   color: #444;
 }
+
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .gm-preview,
+  .gm-preview * {
+    visibility: visible;
+  }
+
+  .gm-preview {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  .gm-actions {
+    display: none !important;
+  }
+}

@@ -5,23 +5,33 @@ import java.math.BigDecimal;
 public class MarksResponseDTO {
 
     private Integer marksId;
+
     private Integer studentId;
-    private Integer submissionId;
+
+    private Integer proposalId;
 
     private Integer proposalMarks;
+
     private Integer weeklyProgressMarks;
+
     private Integer finalReportMarks;
+
     private Integer presentationVivaMarks;
+
     private Integer sourceCodeMarks;
 
     private Integer totalMarks;
+
     private BigDecimal percentage;
 
     private String grade;
+
     private String result;
 
     private String strengths;
+
     private String areasForImprovement;
+
     private String overallComments;
 
 
@@ -37,6 +47,7 @@ public class MarksResponseDTO {
         this.marksId = marksId;
     }
 
+
     public Integer getStudentId() {
         return studentId;
     }
@@ -45,13 +56,15 @@ public class MarksResponseDTO {
         this.studentId = studentId;
     }
 
-    public Integer getSubmissionId() {
-        return submissionId;
+
+    public Integer getProposalId() {
+        return proposalId;
     }
 
-    public void setSubmissionId(Integer submissionId) {
-        this.submissionId = submissionId;
+    public void setProposalId(Integer proposalId) {
+        this.proposalId = proposalId;
     }
+
 
     public Integer getProposalMarks() {
         return proposalMarks;
@@ -61,6 +74,7 @@ public class MarksResponseDTO {
         this.proposalMarks = proposalMarks;
     }
 
+
     public Integer getWeeklyProgressMarks() {
         return weeklyProgressMarks;
     }
@@ -68,6 +82,7 @@ public class MarksResponseDTO {
     public void setWeeklyProgressMarks(Integer weeklyProgressMarks) {
         this.weeklyProgressMarks = weeklyProgressMarks;
     }
+
 
     public Integer getFinalReportMarks() {
         return finalReportMarks;
@@ -77,6 +92,7 @@ public class MarksResponseDTO {
         this.finalReportMarks = finalReportMarks;
     }
 
+
     public Integer getPresentationVivaMarks() {
         return presentationVivaMarks;
     }
@@ -84,6 +100,7 @@ public class MarksResponseDTO {
     public void setPresentationVivaMarks(Integer presentationVivaMarks) {
         this.presentationVivaMarks = presentationVivaMarks;
     }
+
 
     public Integer getSourceCodeMarks() {
         return sourceCodeMarks;
@@ -93,6 +110,7 @@ public class MarksResponseDTO {
         this.sourceCodeMarks = sourceCodeMarks;
     }
 
+
     public Integer getTotalMarks() {
         return totalMarks;
     }
@@ -100,6 +118,7 @@ public class MarksResponseDTO {
     public void setTotalMarks(Integer totalMarks) {
         this.totalMarks = totalMarks;
     }
+
 
     public BigDecimal getPercentage() {
         return percentage;
@@ -109,6 +128,7 @@ public class MarksResponseDTO {
         this.percentage = percentage;
     }
 
+
     public String getGrade() {
         return grade;
     }
@@ -116,6 +136,7 @@ public class MarksResponseDTO {
     public void setGrade(String grade) {
         this.grade = grade;
     }
+
 
     public String getResult() {
         return result;
@@ -125,6 +146,7 @@ public class MarksResponseDTO {
         this.result = result;
     }
 
+
     public String getStrengths() {
         return strengths;
     }
@@ -133,6 +155,7 @@ public class MarksResponseDTO {
         this.strengths = strengths;
     }
 
+
     public String getAreasForImprovement() {
         return areasForImprovement;
     }
@@ -140,6 +163,7 @@ public class MarksResponseDTO {
     public void setAreasForImprovement(String areasForImprovement) {
         this.areasForImprovement = areasForImprovement;
     }
+
 
     public String getOverallComments() {
         return overallComments;

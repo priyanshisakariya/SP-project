@@ -3,16 +3,23 @@ package com.campus.campus_backend.dto.marks;
 public class MarksRequestDTO {
 
     private Integer studentId;
-    private Integer submissionId;
+
+    private Integer proposalId;
 
     private Integer proposalMarks;
+
     private Integer weeklyProgressMarks;
+
     private Integer finalReportMarks;
+
     private Integer presentationVivaMarks;
+
     private Integer sourceCodeMarks;
 
     private String strengths;
+
     private String areasForImprovement;
+
     private String overallComments;
 
 
@@ -28,13 +35,15 @@ public class MarksRequestDTO {
         this.studentId = studentId;
     }
 
-    public Integer getSubmissionId() {
-        return submissionId;
+
+    public Integer getProposalId() {
+        return proposalId;
     }
 
-    public void setSubmissionId(Integer submissionId) {
-        this.submissionId = submissionId;
+    public void setProposalId(Integer proposalId) {
+        this.proposalId = proposalId;
     }
+
 
     public Integer getProposalMarks() {
         return proposalMarks;
@@ -44,6 +53,7 @@ public class MarksRequestDTO {
         this.proposalMarks = proposalMarks;
     }
 
+
     public Integer getWeeklyProgressMarks() {
         return weeklyProgressMarks;
     }
@@ -51,6 +61,7 @@ public class MarksRequestDTO {
     public void setWeeklyProgressMarks(Integer weeklyProgressMarks) {
         this.weeklyProgressMarks = weeklyProgressMarks;
     }
+
 
     public Integer getFinalReportMarks() {
         return finalReportMarks;
@@ -60,6 +71,7 @@ public class MarksRequestDTO {
         this.finalReportMarks = finalReportMarks;
     }
 
+
     public Integer getPresentationVivaMarks() {
         return presentationVivaMarks;
     }
@@ -67,6 +79,7 @@ public class MarksRequestDTO {
     public void setPresentationVivaMarks(Integer presentationVivaMarks) {
         this.presentationVivaMarks = presentationVivaMarks;
     }
+
 
     public Integer getSourceCodeMarks() {
         return sourceCodeMarks;
@@ -76,6 +89,7 @@ public class MarksRequestDTO {
         this.sourceCodeMarks = sourceCodeMarks;
     }
 
+
     public String getStrengths() {
         return strengths;
     }
@@ -84,6 +98,7 @@ public class MarksRequestDTO {
         this.strengths = strengths;
     }
 
+
     public String getAreasForImprovement() {
         return areasForImprovement;
     }
@@ -91,6 +106,7 @@ public class MarksRequestDTO {
     public void setAreasForImprovement(String areasForImprovement) {
         this.areasForImprovement = areasForImprovement;
     }
+
 
     public String getOverallComments() {
         return overallComments;

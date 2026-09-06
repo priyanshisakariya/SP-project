@@ -1,13 +1,10 @@
-package com.campus.campus_backend.dto.weeklyreview;
+package com.campus.campus_backend.dto.WeeklyReview;
 
 public class WeeklyReviewRequestDTO {
 
     private Integer progressId;
+
     private String facultyFeedback;
-
-
-    public WeeklyReviewRequestDTO() {
-    }
 
 
     public Integer getProgressId() {
@@ -17,6 +14,7 @@ public class WeeklyReviewRequestDTO {
     public void setProgressId(Integer progressId) {
         this.progressId = progressId;
     }
+
 
     public String getFacultyFeedback() {
         return facultyFeedback;

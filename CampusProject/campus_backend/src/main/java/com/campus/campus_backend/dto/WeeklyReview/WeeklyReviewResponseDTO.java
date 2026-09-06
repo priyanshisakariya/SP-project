@@ -1,14 +1,12 @@
-package com.campus.campus_backend.dto.weeklyreview;
+package com.campus.campus_backend.dto.WeeklyReview;
 
 public class WeeklyReviewResponseDTO {
 
     private Integer weeklyReviewId;
+
     private Integer progressId;
+
     private String facultyFeedback;
-
-
-    public WeeklyReviewResponseDTO() {
-    }
 
 
     public Integer getWeeklyReviewId() {
@@ -19,6 +17,7 @@ public class WeeklyReviewResponseDTO {
         this.weeklyReviewId = weeklyReviewId;
     }
 
+
     public Integer getProgressId() {
         return progressId;
     }
@@ -26,6 +25,7 @@ public class WeeklyReviewResponseDTO {
     public void setProgressId(Integer progressId) {
         this.progressId = progressId;
     }
+
 
     public String getFacultyFeedback() {
         return facultyFeedback;
